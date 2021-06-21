@@ -1,0 +1,30 @@
+{
+  "name": "eris-buttons",
+  "version": "0.1",
+  "description": "Discord buttons for the Eris Discord library",
+  "main": "src/index.js",
+  "types": "typings/index.d.ts",
+  "author": "Jakemate977, tnfAngel",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "yarn run eslint .",
+    "pretty": "yarn run prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jakemate977/eris-buttons.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jakemate977/eris-buttons/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^15.3.0",
+    "@yarnpkg/pnpify": "^3.0.0-rc.6",
+    "eslint": "^7.29.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.1"
+  },
+  "dependencies": {
+    "eris": "^0.15.1"
+  }
+}

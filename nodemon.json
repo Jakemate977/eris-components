@@ -1,0 +1,17 @@
+{
+	"ignore": [
+		"node_modules/",
+		".yarn/",
+		"*.json",
+		"*.yml",
+		"*.sqlite",
+		"*.log"
+	],
+	"verbose": true,
+	"execMap": {
+		".ts": "yarn ts-node"
+	},
+	"events": {
+		"start": "cls || clear"
+	}
+}
