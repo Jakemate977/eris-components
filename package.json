@@ -2,8 +2,8 @@
   "name": "eris-buttons",
   "version": "0.1",
   "description": "Discord buttons for the Eris Discord library",
-  "main": "src/index.js",
-  "types": "typings/index.d.ts",
+  "main": "lib/index.js",
+  "types": "index.d.ts",
   "author": "Jakemate977, tnfAngel",
   "license": "Apache-2.0",
   "scripts": {
@@ -19,12 +19,16 @@
   },
   "devDependencies": {
     "@types/node": "^15.3.0",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
     "@yarnpkg/pnpify": "^3.0.0-rc.6",
     "eslint": "^7.29.0",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.3.1"
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.4"
   },
   "dependencies": {
-    "eris": "^0.15.1"
+    "axios": "^0.21.1",
+    "eris": "^0.15.1",
+    "eris-additions": "^1.4.1"
   }
 }

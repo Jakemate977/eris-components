@@ -2,6 +2,9 @@
   "recommendations": [
     "arcanis.vscode-zipfs",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "Tabnine.tabnine-vscode",
+    "christian-kohler.path-intellisense"
   ]
 }
