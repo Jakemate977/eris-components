@@ -143,7 +143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^15.3.0":
+"@types/node@npm:*":
   version: 15.12.4
   resolution: "@types/node@npm:15.12.4"
   checksum: 64b121a7e805379382aeb3eefed56c4c34f1ebf5e818ba2c732e43beebc4fbde20be438f3eaaffd8dba5062f0e0c9ae085127b7239906d170eda816885a6c508
@@ -154,6 +154,13 @@ __metadata:
   version: 13.13.52
   resolution: "@types/node@npm:13.13.52"
   checksum: 702db7930d333cc56e38d1ffb0ac394c2ccaae3be41ad6d92d84e5225f2ccf7a69fc19bd9eceafd0c00189876add6464460c5fd47ce4bdc14f6f9b0a7212aee0
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^15.12.5":
+  version: 15.12.5
+  resolution: "@types/node@npm:15.12.5"
+  checksum: 42485de7a0b7277ddaae25b36ab4174fc8f23e8a5de9ccaedd002ecec17135c48227a5e09088d181c2bc34fe6b2064feb4a468954372076fd8addac2f72dad7e
   languageName: node
   linkType: hard
 
@@ -870,7 +877,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eris-buttons@workspace:."
   dependencies:
-    "@types/node": ^15.3.0
+    "@types/node": ^15.12.5
     "@typescript-eslint/eslint-plugin": latest
     "@typescript-eslint/parser": latest
     "@yarnpkg/pnpify": ^3.0.0-rc.6
@@ -878,7 +885,7 @@ __metadata:
     eris: ^0.15.1
     eris-additions: ^1.4.1
     eslint: ^7.29.0
-    prettier: ^2.3.1
+    prettier: ^2.3.2
     typescript: ^4.3.4
   languageName: unknown
   linkType: soft
@@ -1858,12 +1865,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "prettier@npm:2.3.1"
+"prettier@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "prettier@npm:2.3.2"
   bin:
     prettier: bin-prettier.js
-  checksum: 9b4a695b87ce5f510fc20feec01cce7371f0fa0b92ffe79d543f6be52e2004c532861629de4d7ab1c577e1f649dce3cfccd62cb2ca6526b1da8d9c63eb84bf36
+  checksum: 4fd89a7f6a12b13456d359fba2b1dd0fc0a17cf33f8f15953ab9f43b21ea9b09b5a2861d63b558ca0577274ce606d390e70628cf93e26d19d6cb7f19c9eebc31
   languageName: node
   linkType: hard
 
