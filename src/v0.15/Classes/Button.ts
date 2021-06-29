@@ -1,15 +1,23 @@
-const Util = require('./Util');
+import * as Util from '../Util';
+import { MessageButtonStyles, MessageButtonStylesAliases } from '../Constants'
 
 class ErisButton {
-	constructor(obj = {}) {
+	style?: string[MessageButtonStyles] | string[MessageButtonStylesAliases];
+	label?: string;
+	disabled?: boolean;
+	emoji?: string;
+	url?: string;
+	custom_id?: string;
+
+
+	constructor(obj: any = {}) {
 		this.setup(obj);
 	}
 
-	setup(obj) {
+	setup(obj: Record<any, any>): any {
 		this.style = 'style' in obj ? Util.resolveStyle(obj.style) : null;
 
-		this.label =
-			'label' in obj && Util.resolveString(obj.label) ? obj.label : undefined;
+		this.label = 'label' in obj && Util.resolveString(obj.label) ? obj.label : undefined;
 
 		this.disabled = 'disabled' in obj ? obj.disabled : false;
 
@@ -30,32 +38,32 @@ class ErisButton {
 		return this;
 	}
 
-	setStyle(style) {
+	setStyle(style: any): any {
 		this.style = Util.resolveStyle(style);
 		return this;
 	}
 
-	setLabel(label) {
+	setLabel(label: string): any {
 		this.label = Util.resolveString(label);
 		return this;
 	}
 
-	setDisabled(disabled = true) {
+	setDisabled(disabled: boolean): any {
 		this.disabled = disabled;
 		return this;
 	}
 
-	setURL(url) {
+	setURL(url: string): any {
 		this.url = Util.resolveString(url);
 		return this;
 	}
 
-	setID(custom_id) {
+	setID(custom_id: string): any {
 		this.custom_id = Util.resolveString(custom_id);
 		return this;
 	}
 
-	setEmoji(emoji, animated) {
+	setEmoji(emoji: any, animated: boolean): any {
 		animated = false;
 
 		if (!emoji) return this;
@@ -87,7 +95,7 @@ class ErisButton {
 		return this;
 	}
 
-	toJSON() {
+	toJSON(): any {
 		return {
 			type: 2,
 			style: this.style,

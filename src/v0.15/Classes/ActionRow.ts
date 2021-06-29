@@ -1,13 +1,13 @@
-const { MessageComponentTypes } = require('../Constants');
-const BaseMessageComponent = require('./interfaces/BaseMessageComponent');
+import { MessageComponentTypes } from '../Constants'; 
+import MessageComponent from './interfaces/MessageComponent';
 
-class MessageActionRow extends BaseMessageComponent {
-	constructor(data = {}) {
+export class ActionRow extends MessageComponent {
+	constructor(data: Record<string, null> = {}) {
 		super({ type: 'ACTION_ROW' });
 		this.setup(data);
 	}
 
-	setup(data) {
+	setup(data: Record<string, null>): any {
 		if ('component' in data) {
 			this.component = BaseMessageComponent.create(component, null, true);
 		}
@@ -22,25 +22,23 @@ class MessageActionRow extends BaseMessageComponent {
 		return this;
 	}
 
-	addComponents(...components) {
+	addComponents(...components: any): any {
 		this.components.push(
 			...components
 				.flat(2)
-				.map((c) => BaseMessageComponent.create(c, null, true))
+				.map((c) => MessageComponent.create(c, null, true))
 		);
 		return this;
 	}
 
-	addComponent(component) {
+	addComponent(component: any): any {
 		return this.addComponents(component);
 	}
 
-	toJSON() {
+	toJSON(): any {
 		return {
 			components: this.components.map((c) => c.toJSON()),
 			type: MessageComponentTypes[this.type],
 		};
 	}
 }
-
-module.exports = MessageActionRow;

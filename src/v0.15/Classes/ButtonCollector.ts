@@ -1,8 +1,7 @@
-const { awaitMessages } = require('eris-additions');
-const { Events } = require('eris').Constants;
+import { Constants } from 'eris'
 
-class ButtonCollector extends awaitMessages {
-	constructor(data, filter, options = {}) {
+class ButtonCollector extends Collector {
+	constructor(data: any, filter: any, options: any = {}) {
 		super(data.client, filter, options);
 
 		this.message = data;

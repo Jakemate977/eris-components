@@ -2,8 +2,8 @@
   "name": "eris-buttons",
   "version": "0.1",
   "description": "Discord buttons for the Eris Discord library",
-  "main": "lib/index.js",
-  "types": "index.d.ts",
+  "main": "lib/v0.15/index.js",
+  "types": "lib/v0.15/index.d.ts",
   "author": "Jakemate977, tnfAngel",
   "license": "Apache-2.0",
   "scripts": {
@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "eris": "^0.15.1",
-    "eris-additions": "^1.4.1"
+    "eris": "^0.15.1"
   }
 }

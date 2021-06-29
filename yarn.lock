@@ -864,15 +864,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eris-additions@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "eris-additions@npm:1.4.1"
-  dependencies:
-    eris: ^0.12.0
-  checksum: 0089ce748994c41a98a50fc35cd61bc5917d4add5688bd5147d52ce8af7f033744a95d6261c345eb79caf9f69d29bcb28c2f8edef601d4936cadc8bb9470b20a
-  languageName: node
-  linkType: hard
-
 "eris-buttons@workspace:.":
   version: 0.0.0-use.local
   resolution: "eris-buttons@workspace:."
@@ -883,28 +874,11 @@ __metadata:
     "@yarnpkg/pnpify": ^3.0.0-rc.6
     axios: ^0.21.1
     eris: ^0.15.1
-    eris-additions: ^1.4.1
     eslint: ^7.29.0
     prettier: ^2.3.2
     typescript: ^4.3.4
   languageName: unknown
   linkType: soft
-
-"eris@npm:^0.12.0":
-  version: 0.12.1
-  resolution: "eris@npm:0.12.1"
-  dependencies:
-    opusscript: ^0.0.7
-    tweetnacl: ^1.0.1
-    ws: ^7.2.1
-  dependenciesMeta:
-    opusscript:
-      optional: true
-    tweetnacl:
-      optional: true
-  checksum: 1941aa711a123722fb6684aed077226337af4c0aae8bf99f42647bb3de6d1ad5ec5511651d7e83fd610ab0aa8aee0161a90aee1f2ff0ba088f7a0e0965558aac
-  languageName: node
-  linkType: hard
 
 "eris@npm:^0.15.1":
   version: 0.15.1
@@ -1748,13 +1722,6 @@ __metadata:
     type-check: ^0.4.0
     word-wrap: ^1.2.3
   checksum: bdf5683f986d00e173e6034837b7b6a9e68c7e1a37d7684b240adf1758db9076cfb04c9f64be29327881bb06c5017afb8b65012c5f02d07b180e9f6f42595ffd
-  languageName: node
-  linkType: hard
-
-"opusscript@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "opusscript@npm:0.0.7"
-  checksum: 3fc224fbe9608af9ab354b24e3e7c9bde5f1de6419c1c86882edf7781cda52bb82526e8990a63f8991ec15a14e16e7f8e49aeacd0cc99bc9c4376d2476d9b386
   languageName: node
   linkType: hard
 
