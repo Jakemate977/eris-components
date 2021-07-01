@@ -1,3 +1,4 @@
 ☐ ButtonCollector
 ☐ MessageComponent
 ☐ ActionRow
+☐ Bundle all exports in the index.ts file
