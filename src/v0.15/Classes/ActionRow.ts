@@ -1,4 +1,4 @@
-import { MessageComponentTypes } from '../Constants'; 
+import { MessageComponentTypes } from '../Constants';
 import MessageComponent from './interfaces/MessageComponent';
 
 export class ActionRow extends MessageComponent {
@@ -7,7 +7,7 @@ export class ActionRow extends MessageComponent {
 		this.setup(data);
 	}
 
-	setup(data: Record<string, null>): any {
+	setup(data: Record<string, null>): unknown {
 		if ('component' in data) {
 			this.component = BaseMessageComponent.create(component, null, true);
 		}
@@ -24,9 +24,7 @@ export class ActionRow extends MessageComponent {
 
 	addComponents(...components: any): any {
 		this.components.push(
-			...components
-				.flat(2)
-				.map((c) => MessageComponent.create(c, null, true))
+			...components.flat(2).map((c) => MessageComponent.create(c, null, true))
 		);
 		return this;
 	}

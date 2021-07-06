@@ -1,11 +1,11 @@
-export declare enum MessageComponentTypes {
+export enum MessageComponentTypes {
 	null,
 	'ACTION_ROW',
 	'BUTTON',
 	'SELECT_MENU',
 }
 
-export declare enum MessageButtonStyles {
+export enum MessageButtonStyles {
 	null,
 	'blurple',
 	'grey',
@@ -13,7 +13,7 @@ export declare enum MessageButtonStyles {
 	'red',
 	'url',
 }
-export declare enum MessageButtonStylesAliases {
+export enum MessageButtonStylesAliases {
 	null,
 	'PRIMARY',
 	'SECONDARY',
@@ -22,11 +22,11 @@ export declare enum MessageButtonStylesAliases {
 	'LINK',
 }
 
-export function createEnum(keys: Array<any>) {
-	const obj: any = {};
-	const entries: any = keys.entries()
+export function createEnum(keys: Array<unknown>): Record<string, unknown> {
+	const obj: Record<string, unknown> = {};
+	const entries: IterableIterator<[number, any]> = keys.entries();
 	for (const [index, key] of entries) {
-		if (key === null) continue
+		if (key === null) continue;
 		obj[key] = index;
 		obj[index] = key;
 	}

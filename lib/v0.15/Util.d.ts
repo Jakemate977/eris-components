@@ -1,13 +1,6 @@
-export declare function resolveStyle(style: any): any;
-export declare function resolveString(data: any): string;
-export declare function resolveButton(data: any): {
-    style: any;
-    label: any;
-    emoji: any;
-    disabled: any;
-    url: any;
-    custom_id: any;
-    type: number;
-};
-export declare function resolveType(type: any): any;
-export declare function isEmoji(string: string): boolean;
+export declare function resolveStyle(style: any): unknown;
+export declare function resolveString(data: unknown): string;
+export declare function resolveButton(this: any, data: Record<string, any>): Record<string, unknown>;
+export declare function resolveType(type: number): unknown;
+export declare function isEmoji(string: string): unknown;
+//# sourceMappingURL=Util.d.ts.map

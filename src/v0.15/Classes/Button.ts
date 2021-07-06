@@ -1,7 +1,7 @@
 import * as Util from '../Util';
-import { MessageButtonStyles, MessageButtonStylesAliases } from '../Constants'
+import { MessageButtonStyles, MessageButtonStylesAliases } from '../Constants';
 
-class ErisButton {
+export class ErisButton {
 	style?: string[MessageButtonStyles] | string[MessageButtonStylesAliases];
 	label?: string;
 	disabled?: boolean;
@@ -9,15 +9,15 @@ class ErisButton {
 	url?: string;
 	custom_id?: string;
 
-
-	constructor(obj: any = {}) {
+	constructor(obj: Record<string, unknown> = {}) {
 		this.setup(obj);
 	}
 
-	setup(obj: Record<any, any>): any {
+	setup(obj: any): unknown {
 		this.style = 'style' in obj ? Util.resolveStyle(obj.style) : null;
 
-		this.label = 'label' in obj && Util.resolveString(obj.label) ? obj.label : undefined;
+		this.label =
+			'label' in obj && Util.resolveString(obj.label) ? obj.label : undefined;
 
 		this.disabled = 'disabled' in obj ? obj.disabled : false;
 
@@ -38,7 +38,7 @@ class ErisButton {
 		return this;
 	}
 
-	setStyle(style: any): any {
+	setStyle(style: string): any {
 		this.style = Util.resolveStyle(style);
 		return this;
 	}
@@ -63,8 +63,7 @@ class ErisButton {
 		return this;
 	}
 
-	setEmoji(emoji: any, animated: boolean): any {
-		animated = false;
+	setEmoji(emoji: any, animated?: boolean): this {
 
 		if (!emoji) return this;
 
@@ -95,7 +94,7 @@ class ErisButton {
 		return this;
 	}
 
-	toJSON(): any {
+	toJSON(): Record<string, unknown> {
 		return {
 			type: 2,
 			style: this.style,
@@ -107,5 +106,3 @@ class ErisButton {
 		};
 	}
 }
-
-module.exports = ErisButton;

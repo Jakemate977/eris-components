@@ -1,4 +1,4 @@
-import { Constants } from 'eris'
+import { Constants } from 'eris';
 
 class ButtonCollector extends Collector {
 	constructor(data: any, filter: any, options: any = {}) {
