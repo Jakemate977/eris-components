@@ -19,7 +19,7 @@
     "url": "https://github.com/Jakemate977/eris-buttons/issues"
   },
   "devDependencies": {
-    "@types/node": "^15.12.5",
+    "@types/node": "^16.3.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@yarnpkg/pnpify": "^3.0.0-rc.6",
