@@ -28,7 +28,9 @@
     "typescript": "^4.3.4"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.1"
+  },
+	"peerDependencis": {
     "eris": "^0.15.1"
-  }
+	}
 }
