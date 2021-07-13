@@ -17,7 +17,7 @@ export default class MessageComponent {
 		if (typeof data.type === 'string') {
 			// TODO: hacer que no sea de tipo any
 			//cool1
-			const dataType: any = data.type; // creo que solo se puede usar any ya que unknown no deja 
+			const dataType: any = data.type; // creo que solo se puede usar any ya que unknown no deja
 			data.type = MessageComponentTypes[dataType];
 		}
 

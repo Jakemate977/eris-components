@@ -64,7 +64,6 @@ export class ErisButton {
 	}
 
 	setEmoji(emoji: any, animated?: boolean): this {
-
 		if (!emoji) return this;
 
 		if (Util.isEmoji(emoji) === true) {
