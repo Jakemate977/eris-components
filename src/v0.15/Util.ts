@@ -1,32 +1,18 @@
-import {
-	MessageButtonStyles,
-	MessageButtonStylesAliases,
-	MessageComponentTypes,
-} from './Constants';
+import { MessageButtonStyles, MessageComponentTypes } from './Constants';
 
-//! fix the input of this
-
-export function resolveStyle(style: (keyof typeof MessageButtonStyles = style) | (keyof typeof MessageButtonStylesAliases = style)): string {
-	if (!style || style === undefined || style === null)
-		throw new TypeError('NO_BUTTON_STYLE: Please provide button style');
-
-	if (
-		(!MessageButtonStyles[style] ||
-			MessageButtonStyles[style] === undefined ||
-			MessageButtonStyles[style] === null) &&
-		(!MessageButtonStylesAliases[style] ||
-			MessageButtonStylesAliases[style] === undefined ||
-			MessageButtonStylesAliases[style] === null)
-	)
-		throw new TypeError(
-			'INVALID_BUTTON_STYLE: An invalid button styles was provided'
-		);
-
-	return typeof style === 'string' ? MessageButtonStyles[style] : style;
+/**
+ * Resolves if a string is a style.
+ * @param  {MessageButtonStyles} style
+ * @returns MessageButtonStyles
+ */
+export function resolveStyle(
+	style: keyof typeof MessageButtonStyles
+): MessageButtonStyles {
+	return MessageButtonStyles[style];
 }
 
 /**
- * Returns the input as a string, in arrays, however, it joins the values into a single string.
+ * Returns the input as a string, in arrays, however, it joins the values of an array into a single string.
  * @param  {unknown} data
  * @returns string
  */
@@ -42,7 +28,10 @@ export function resolveString(data: unknown): string {
  * @param  {Record<string, any>} data
  * @returns Record<strign, unknown>
  */
-export function resolveButton(this: Record<string, any>, data: Record<string, any>): Record<string, unknown> {
+export function resolveButton(
+	this: Record<string, any>,
+	data: Record<string, any>
+): Record<string, unknown> {
 	if (data.type !== 2 && data.type !== 3)
 		throw new TypeError('NO_BUTTON_TYPE: Invalid type');
 

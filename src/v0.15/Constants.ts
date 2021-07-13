@@ -11,8 +11,7 @@ export enum MessageButtonStyles {
 	'green' = 3,
 	'red' = 4,
 	'url' = 5,
-}
-export enum MessageButtonStylesAliases {
+	// aliases
 	'PRIMARY' = 1,
 	'SECONDARY' = 2,
 	'SUCCESS' = 3,

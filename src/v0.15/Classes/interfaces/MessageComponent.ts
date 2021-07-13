@@ -6,7 +6,7 @@ interface Data {
 }
 
 export default class MessageComponent {
-	type: string | null;
+	type: string | null; //hola aqui no hmm?, en button.ts
 	constructor(data: Data) {
 		this.type = 'type' in data ? resolveType(data.type) : null;
 	}

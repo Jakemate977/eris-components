@@ -1,19 +1,32 @@
-import { MessageButtonStyles, MessageButtonStylesAliases } from '../Constants';
-export declare class ErisButton {
-	style?: string[MessageButtonStyles] | string[MessageButtonStylesAliases];
-	label?: string;
-	disabled?: boolean;
-	emoji?: string;
-	url?: string;
-	custom_id?: string;
-	constructor(obj?: Record<string, unknown>);
-	setup(obj: any): unknown;
-	setStyle(style: string): any;
-	setLabel(label: string): any;
-	setDisabled(disabled: boolean): any;
-	setURL(url: string): any;
-	setID(custom_id: string): any;
-	setEmoji(emoji: any, animated?: boolean): this;
-	toJSON(): Record<string, unknown>;
+import { MessageButtonStyles } from '../Constants';
+interface EmojiObject {
+	name: string;
+	id?: string;
 }
+interface ButtonObject {
+	style?: keyof typeof MessageButtonStyles | null;
+	label?: string | null;
+	disabled?: boolean;
+	emoji?: string | EmojiObject;
+	url?: string | null;
+	custom_id?: string | null;
+}
+export declare class Button {
+	style?: keyof typeof MessageButtonStyles | null;
+	label?: string | null;
+	disabled?: boolean;
+	emoji?: string | EmojiObject | null;
+	url?: string | null;
+	custom_id?: string | null;
+	constructor(obj?: ButtonObject);
+	setup(obj: ButtonObject): this;
+	setStyle(style: keyof typeof MessageButtonStyles): this;
+	setLabel(label: string): this;
+	setDisabled(disabled: boolean): this;
+	setURL(url: string): this;
+	setID(custom_id: string): this;
+	setEmoji(emoji: string, id?: string): this;
+	toJSON(): ButtonObject;
+}
+export {};
 //# sourceMappingURL=Button.d.ts.map

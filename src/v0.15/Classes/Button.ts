@@ -1,89 +1,90 @@
 import * as Util from '../Util';
-import { MessageButtonStyles, MessageButtonStylesAliases } from '../Constants';
+import { MessageButtonStyles } from '../Constants';
 
-export class ErisButton {
-	style?: string[MessageButtonStyles] | string[MessageButtonStylesAliases];
-	label?: string;
+interface EmojiObject {
+	name: string;
+	id?: string;
+}
+
+interface ButtonObject {
+	style?: keyof typeof MessageButtonStyles | null;
+	label?: string | null;
 	disabled?: boolean;
-	emoji?: string;
-	url?: string;
-	custom_id?: string;
+	emoji?: string | EmojiObject;
+	url?: string | null;
+	custom_id?: string | null;
+}
 
-	constructor(obj: Record<string, unknown> = {}) {
+export class Button {
+	style?: keyof typeof MessageButtonStyles | null;
+	label?: string | null;
+	disabled?: boolean;
+	emoji?: string | EmojiObject | null;
+	url?: string | null;
+	custom_id?: string | null;
+
+	constructor(obj: ButtonObject = {}) {
 		this.setup(obj);
 	}
 
-	setup(obj: any): unknown {
-		this.style = 'style' in obj ? Util.resolveStyle(obj.style) : null;
+	setup(obj: ButtonObject): this {
+		this.style = obj.style;
 
 		this.label =
-			'label' in obj && Util.resolveString(obj.label) ? obj.label : undefined;
+			'label' in obj && Util.resolveString(obj.label) ? obj.label : null;
 
 		this.disabled = 'disabled' in obj ? obj.disabled : false;
 
-		this.emoji = 'emoji' in obj ? obj.emoji : undefined;
+		this.emoji = 'emoji' in obj ? obj.emoji : null;
 
 		if ('url' in obj && obj.url) {
 			this.url = Util.resolveString(obj.url);
 		} else {
-			this.url = undefined;
+			this.url = null;
 		}
 
-		if ('custom_id' in obj && obj.custom_id) {
-			this.custom_id = obj.custom_id;
-		} else {
-			this.custom_id = undefined;
-		}
+		if ('custom_id' in obj && obj.custom_id) this.custom_id = obj.custom_id;
 
 		return this;
 	}
 
-	setStyle(style: string): any {
-		this.style = Util.resolveStyle(style);
+	setStyle(style: keyof typeof MessageButtonStyles): this {
+		this.style = style;
 		return this;
 	}
 
-	setLabel(label: string): any {
+	setLabel(label: string): this {
 		this.label = Util.resolveString(label);
 		return this;
 	}
 
-	setDisabled(disabled: boolean): any {
+	setDisabled(disabled: boolean): this {
 		this.disabled = disabled;
 		return this;
 	}
 
-	setURL(url: string): any {
+	setURL(url: string): this {
 		this.url = Util.resolveString(url);
 		return this;
 	}
 
-	setID(custom_id: string): any {
+	setID(custom_id: string): this {
 		this.custom_id = Util.resolveString(custom_id);
 		return this;
 	}
 
-	setEmoji(emoji: any, animated?: boolean): this {
-		if (!emoji) return this;
-
-		if (Util.isEmoji(emoji) === true) {
+	// TODO: mejorar los emojis hola
+	setEmoji(emoji: string, id?: string): this {
+		//mejor usamos params de la funcion?
+		if (Util.isEmoji(emoji)) {
 			this.emoji = { name: Util.resolveString(emoji) };
-		} else if (emoji.id) {
-			this.emoji = { id: emoji.id };
+		} else if (id) {
+			this.emoji.id = id;
 		} else if (Util.resolveString(emoji).length > 0) {
 			this.emoji = { id: Util.resolveString(emoji) };
 		} else {
 			this.emoji = { name: null, id: null };
 		}
-
-		if (
-			(animated && typeof animated !== 'boolean') ||
-			(emoji.animated && typeof emoji.animated !== 'boolean')
-		)
-			throw new SyntaxError(
-				'The emoji animated option must be true or false (boolean)'
-			);
-
 		if (this.emoji && typeof emoji.animated === 'boolean')
 			this.emoji.animated = emoji.animated;
 
@@ -93,7 +94,7 @@ export class ErisButton {
 		return this;
 	}
 
-	toJSON(): Record<string, unknown> {
+	toJSON(): ButtonObject {
 		return {
 			type: 2,
 			style: this.style,

@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "yarn run eslint .",
     "pretty": "yarn run prettier --write .",
-    "compile": "tsc"
+    "compile": "yarn run tsc"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,8 @@
     "typescript": "^4.3.4"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "eris": "^0.15.1"
   },
   "peerDependencis": {
     "eris": "^0.15.1"

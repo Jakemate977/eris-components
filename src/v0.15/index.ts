@@ -19,6 +19,6 @@ export default function buttons(client: Eris.Client): void {
 	});
 }
 
-module.exports.ErisButton = require(`./v0.15/Classes/ErisButton`);
+module.exports.ErisButton = require(`./Classes/Button.ts`);
 module.exports.ActionRow = require('./Classes/ActionRow.ts');
 module.exports.Collector = require('./Classes/ButtonCollector.ts');
