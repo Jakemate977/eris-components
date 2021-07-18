@@ -1,16 +1,15 @@
-import Eris from 'eris'
-import * as axios from 'axios'
+const Eris = require('eris')
+const axios = require('axios')
 
-import { ComponentTypes, baseURL } from './constants'
-import { ErisComponentsError } from './util'
+import { ComponentTypes, baseURL } from './lib/constants'
+import { ErisComponentsError } from './lib/util'
 
-import ActionRow from './classes/ActionRow'
-import Button from'./classes/Button'
-import Menu from './classes/Menu'
-import MenuOption from './classes/MenuOption'
+const ActionRow = require('./lib/classes/ActionRow')
+const Button = require('./lib/classes/Button')
+const Menu = require('./lib/classes/Menu')
+const MenuOption = require('./lib/classes/MenuOption')
 
-// abajo esta el export default, no solo se exporta el cliente dejalo
-export default function Client(ErisClient: Eris.Client, botToken: string) {
+export default function Client(ErisClient: any, botToken: string) {
 
     if (!botToken) throw new ErisComponentsError('NO_TOKEN_PROVIDED', 'No Token provided on ErisComponents.Client function.')
 
@@ -422,10 +421,13 @@ export default function Client(ErisClient: Eris.Client, botToken: string) {
 
 }
 
-module.exports.Client = Client
-module.exports.ActionRow = ActionRow
-module.exports.Button = Button
-module.exports.Menu = Menu
-module.exports.MenuOption = MenuOption
-module.exports.Util = import('./util')
-module.exports.Constants = import('./constants')
+
+export default {
+    Client: Client,
+    ActionRow: ActionRow,
+    Button: Button,
+    Menu: Menu,
+    MenuOption: MenuOption,
+    Util: require('./lib/util'),
+    Constants: require('./lib/constants')
+}
