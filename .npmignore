@@ -1,0 +1,17 @@
+.pnp.*
+*.log
+*.md
+.github/*
+.idea/*
+.vscode/*
+.yarn/*
+test/*
+.editorconfig
+.eslintignore
+.eslintrc.json
+.gitignore
+.prettierignore
+.prettierrc
+.yarnrc.yml
+tsconfig.json
+*.map
