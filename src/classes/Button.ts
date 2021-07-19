@@ -9,10 +9,10 @@ import { ComponentTypes, ButtonStyles, objButton } from '../constants';
 
 export default class ErisButton {
     style!: keyof typeof ButtonStyles;
-    label!: string;
+    label!: string; 
     disabled?: boolean = false;
     emoji?: string;
-    url?: string;
+    url?: string; //hola lee discord
     custom_id?: string;
 
     constructor(obj = {}) {

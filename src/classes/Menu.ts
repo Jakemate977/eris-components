@@ -7,13 +7,14 @@ import { ComponentTypes, objMenu, objMenuOption } from '../constants';
 
 
 export default class ErisSelectMenu {
-    id: string | null | undefined;
+    id: string | undefined;
     option: any;
-    placeholder: string | null | undefined;
+    placeholder: string | undefined;
     max_values: number | null | undefined;
     min_values: number | null | undefined;
     options: objMenuOption | undefined;
     custom_id: string | null | undefined;
+    disabled: boolean | undefined;
 
     constructor(obj = {}) {
         this.setup(obj);
