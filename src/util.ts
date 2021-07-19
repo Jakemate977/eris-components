@@ -1,4 +1,4 @@
-import { ButtonStyles, ComponentTypes } from './constants';
+import { ButtonStyles, ComponentTypes, objButton, objMenu } from './constants';
 
 export class ErisComponentsError extends Error {
     constructor(code: string, message: string) {
@@ -27,8 +27,9 @@ export function resolveString(data: unknown): string {
 
     return String(data);
 }
-export function resolveButton(data: any): Record<string, unknown> {
-    if (data.type !== ComponentTypes.BUTTON)
+
+export function resolveButton(data: objButton): objButton {
+    if (ComponentTypes[data.type] !== ComponentTypes['BUTTON'])
         throw new ErisComponentsError(
             'INVALID_BUTTON_TYPE',
             'Invalid button type.'
@@ -52,25 +53,25 @@ export function resolveButton(data: any): Record<string, unknown> {
             'The button disabled option must be boolean (true/false)'
         );
 
-    if (data.style === ButtonStyles['url'] && !data.url)
+    if (data.style === 'url' && !data.url)
         throw new ErisComponentsError(
             'NO_BUTTON_URL',
             'You provided url style, you must provide an URL'
         );
 
-    if (data.style !== ButtonStyles['url'] && data.url)
+    if (ButtonStyles[data.style] !== ButtonStyles['url'] && data.url)
         throw new ErisComponentsError(
             'BOTH_URL_CUSTOM_ID',
             'A custom id and url cannot both be specified'
         );
 
-    if (data.style === ButtonStyles['url'] && data.custom_id)
+    if (ButtonStyles[data.style] === ButtonStyles['url'] && data.custom_id)
         throw new ErisComponentsError(
             'BOTH_URL_CUSTOM_ID',
             'A custom id and url cannot both be specified'
         );
 
-    if (data.style !== ButtonStyles['url'] && !data.custom_id)
+    if (ButtonStyles[data.style] !== ButtonStyles['url'] && !data.custom_id)
         throw new ErisComponentsError(
             'NO_BUTTON_ID',
             'Please provide button id'
@@ -95,13 +96,14 @@ export function resolveButton(data: any): Record<string, unknown> {
         disabled: data.disabled,
         url: data.url,
         custom_id: data.custom_id,
-        type: ComponentTypes.BUTTON,
+        type: data.type,
     };
 }
 export function resolveType(type: keyof typeof ComponentTypes): ComponentTypes {
     return ComponentTypes[type];
 }
-export function resolveMenu(data: any) {
+
+export function resolveMenu(data: objMenu): objMenu {
     if (data.type !== ComponentTypes.SELECT_MENU)
         throw new ErisComponentsError(
             'INVALID_MENU_TYPE',

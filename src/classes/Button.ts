@@ -4,16 +4,8 @@ import {
     resolveString,
     testEmoji,
 } from '../util';
-import { ComponentTypes, ButtonStyles } from '../constants';
 
-interface objButton {
-    style: keyof typeof ButtonStyles;
-    label: string;
-    disabled?: boolean;
-    emoji?: string;
-    url?: string;
-    custom_id?: string;
-}
+import { ComponentTypes, ButtonStyles, objButton } from '../constants';
 
 export default class ErisButton {
     style!: keyof typeof ButtonStyles;
@@ -21,7 +13,7 @@ export default class ErisButton {
     disabled?: boolean = false;
     emoji?: string;
     url?: string;
-    custom_id?: string; //moriste
+    custom_id?: string;
 
     constructor(obj = {}) {
         this.setup(obj);

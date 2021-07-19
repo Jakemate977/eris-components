@@ -1,7 +1,7 @@
 export declare enum ComponentTypes {
     'ACTION_ROW' = 1,
     'BUTTON' = 2,
-    'SELECT_MENU' = 3,
+    'SELECT_MENU' = 3
 }
 export declare enum ButtonStyles {
     'blurple' = 1,
@@ -14,6 +14,6 @@ export declare enum ButtonStyles {
     'secondary' = 2,
     'success' = 3,
     'danger' = 4,
-    'link' = 5,
+    'link' = 5
 }
 export declare const baseURL: string;

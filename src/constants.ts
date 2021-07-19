@@ -19,4 +19,39 @@ export enum ButtonStyles {
     'link' = 5,
 }
 
-export const baseURL: string = 'https://discord.com/api/v9';
+export interface objMenuOption {
+    label: string;
+    value: string;
+    description?: string;
+    emoji?: Emoji;
+    default?: boolean;
+}
+
+export interface Emoji {
+    name?: string;
+    id?: string;
+}
+
+export interface objMenu {
+    type: number;
+    minValues?: number;
+    maxValues?: number;
+    id: string;
+    placeholder?: string;
+    options: objMenuOption[];
+    custom_id: string;
+    disabled?: boolean;
+}
+
+export interface objButton {
+    style: keyof typeof ButtonStyles;
+    label: string;
+    disabled?: boolean;
+    emoji?: string;
+    url?: string;
+    custom_id?: string;
+}
+
+export const VERSION = '0.0.1';
+
+export const baseURL = 'https://discord.com/api/v9';

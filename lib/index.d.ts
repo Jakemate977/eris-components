@@ -11,7 +11,4 @@ export * as constants from './constants';
  * @param  {string} botToken
  * @returns Eris
  */
-export default function Client(
-    ErisClient: Eris.Client,
-    botToken: string
-): Eris.Client;
+export default function Client(ErisClient: Eris.Client, botToken: string): Eris.Client;

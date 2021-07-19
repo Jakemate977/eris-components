@@ -1,4 +1,4 @@
-const ErisComponents = require('../index.js');
+const ErisComponents = require('../lib/index.js');
 
 const Eris = require('eris');
 
