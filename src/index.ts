@@ -80,7 +80,7 @@ export default function Client(
                 'You must provide a content to ErisClient.sendComponents function.'
             );
 
-        let endpoint = `/channels/${channel}/messages`;
+        const endpoint = `/channels/${channel}/messages`;
         let body = {};
 
         if (components instanceof Button) {

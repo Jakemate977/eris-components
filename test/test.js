@@ -6,7 +6,7 @@ const token = 'Bot ODY0NTg5NjcyNjM3MTM2ODk2.YO3p4Q.RI6cAHe8AtXCtF99NKFvI11VVcg';
 
 const ErisClient = new Eris(token);
 
-const client = new ErisComponents.Client(ErisClient, token);
+const client = ErisComponents(ErisClient, token);
 
 // Enviar Botones
 

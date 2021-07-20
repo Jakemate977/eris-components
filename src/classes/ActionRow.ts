@@ -1,20 +1,15 @@
 import { ErisComponentsError } from '../util';
-import { ComponentTypes } from '../constants';
-
-interface objAction {
-    components?: any[];
-    type?: number | undefined;
-}
+import { ComponentTypes, objAction, objMenu, objButton } from '../constants';
 
 export default class ErisActionRow {
-    components: any[] = [];
-    type?: number | undefined;
+    components: objButton[] | objMenu[] = [];
+    type?: number;
 
     constructor(obj = {}) {
         this.setup(obj);
     }
 
-    setup(obj: objAction) {
+    setup(obj: objAction): this {
         this.type = ComponentTypes.ACTION_ROW;
 
         this.components = obj.components ? obj.components : [];
@@ -22,10 +17,10 @@ export default class ErisActionRow {
         return this;
     }
 
-    addComponents(components: any[]) {
+    addComponents(components: objAction["components"]): this {
         if (Array.isArray(components)) {
             components.forEach((component) => {
-                this.components.push(component);
+                return this.components.push(component);
             });
         } else {
             this.components.push(components);
@@ -33,11 +28,11 @@ export default class ErisActionRow {
         return this;
     }
 
-    addComponent(component: any) {
+    addComponent(component: any): this {
         return this.addComponents(component);
     }
 
-    setComponents(componentsArr: any[]) {
+    setComponents(componentsArr: any[]): this {
         if (Array.isArray(componentsArr)) {
             this.components = componentsArr;
         } else {
@@ -49,7 +44,7 @@ export default class ErisActionRow {
         return this;
     }
 
-    toJSON() {
+    toJSON(): objAction {
         return {
             components: this.components,
             type: ComponentTypes.ACTION_ROW,

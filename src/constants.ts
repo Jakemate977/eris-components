@@ -19,6 +19,11 @@ export enum ButtonStyles {
     'link' = 5,
 }
 
+export interface Emoji {
+    name?: string;
+    id?: string;
+}
+
 export interface objMenuOption {
     label: string;
     value: string;
@@ -27,16 +32,10 @@ export interface objMenuOption {
     default?: boolean;
 }
 
-export interface Emoji {
-    name?: string;
-    id?: string;
-}
-
 export interface objMenu {
-    type: number;
+    type?: ComponentTypes.SELECT_MENU;
     minValues?: number;
     maxValues?: number;
-    id: string;
     placeholder?: string;
     options: objMenuOption[];
     custom_id: string;
@@ -47,9 +46,15 @@ export interface objButton {
     style: keyof typeof ButtonStyles;
     label: string;
     disabled?: boolean;
-    emoji?: string;
+    emoji?: string | Emoji;
     url?: string;
     custom_id?: string;
+    type?: ComponentTypes.BUTTON;
+}
+
+export interface objAction {
+    components: objButton[] | objMenu[];
+    type?: number;
 }
 
 export const VERSION = '0.0.1';

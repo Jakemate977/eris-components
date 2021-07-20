@@ -7,20 +7,23 @@ import {
 
 import { ComponentTypes, ButtonStyles, objButton } from '../constants';
 
-export default class ErisButton {
+export default class Button {
     style!: keyof typeof ButtonStyles;
     label!: string; 
     disabled?: boolean = false;
     emoji?: string;
     url?: string; //hola lee discord
     custom_id?: string;
-
-    constructor(obj = {}) {
+    /**
+     * Button's constructor, you can pass the raw JSON here.
+     * @param  {objButton} obj
+     */
+    constructor(obj?: objButton = {}) {
         this.setup(obj);
     }
 
     setup(obj: objButton): this {
-        this.style = 'style' in obj ? resolveStyle(obj.style) : null;
+        this.style = resolveStyle(obj.style);
 
         this.label =
             'label' in obj && obj.label ? resolveString(obj.label) : null;

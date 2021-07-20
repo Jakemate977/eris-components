@@ -1,25 +1,37 @@
-import { ButtonStyles, ComponentTypes, objButton, objMenu } from './constants';
+import {
+    ButtonStyles,
+    ComponentTypes,
+    objButton,
+    objMenu,
+    objMenuOption,
+} from './constants';
 
 export class ErisComponentsError extends Error {
+    /**
+     * Throw an error.
+     * @param  {string} code
+     * @param  {string} message
+    */
     constructor(code: string, message: string) {
         super(`(${code.toUpperCase()}) ${message}`);
         this.name = 'ErisComponentsError';
     }
 }
 
+/**
+ * Returns the number of a stile.
+ * @param  {keyof typeof ButtonStyles} style
+ * @returns ButtonStyles
+ */
 export function resolveStyle(style: keyof typeof ButtonStyles): ButtonStyles {
-    if (
-        !ButtonStyles[style] ||
-        ButtonStyles[style] === undefined ||
-        ButtonStyles[style] === null
-    )
-        throw new ErisComponentsError(
-            'INVALID_BUTTON_STYLE',
-            'An invalid button styles was provided.'
-        );
-
     return typeof style === 'string' ? ButtonStyles[style] : style;
 }
+
+/**
+ * Returns the data as a string, if the data is an array it joins all its components into 1 string.
+ * @param  {unknown} data
+ * @returns string
+ */
 export function resolveString(data: unknown): string {
     if (typeof data === 'string') return data;
 
@@ -28,13 +40,12 @@ export function resolveString(data: unknown): string {
     return String(data);
 }
 
+/**
+ * Resolves a button into an object.
+ * @param  {objButton} data
+ * @returns objButton
+ */
 export function resolveButton(data: objButton): objButton {
-    if (ComponentTypes[data.type] !== ComponentTypes['BUTTON'])
-        throw new ErisComponentsError(
-            'INVALID_BUTTON_TYPE',
-            'Invalid button type.'
-        );
-
     if (!data.style)
         throw new ErisComponentsError(
             'NO_BUTTON_STYLE',
@@ -83,7 +94,7 @@ export function resolveButton(data: objButton): objButton {
             'Please provide correct emoji id'
         );
 
-    if (data.emoji && data.emoji.name && testEmoji(data.emoji.name) === false)
+    if (data.emoji && data.emoji.name && !testEmoji(data.emoji.name))
         throw new ErisComponentsError(
             'INCORRECT_EMOJI_NAME',
             'Please provide correct emoji'
@@ -99,10 +110,21 @@ export function resolveButton(data: objButton): objButton {
         type: data.type,
     };
 }
+
+/**
+ * Returns the number of a type.
+ * @param  {keyof typeof ComponentTypes} type
+ * @returns ComponentTypes
+ */
 export function resolveType(type: keyof typeof ComponentTypes): ComponentTypes {
     return ComponentTypes[type];
 }
 
+/**
+ * Resolves a menu into an object.
+ * @param  {objMenu} data
+ * @returns objMenu
+ */
 export function resolveMenu(data: objMenu): objMenu {
     if (data.type !== ComponentTypes.SELECT_MENU)
         throw new ErisComponentsError(
@@ -122,7 +144,7 @@ export function resolveMenu(data: objMenu): objMenu {
             'You need to put a custom menu id.'
         );
 
-    let options = resolveMenuOptions(data.options);
+    const options = resolveMenuOptions(data.options);
 
     if (options.length < 1)
         throw new ErisComponentsError(
@@ -130,28 +152,33 @@ export function resolveMenu(data: objMenu): objMenu {
             'Please provide at least one menu option.'
         );
 
-    let maxValues = resolveMaxValues(data.max_values);
+    const maxValues = resolveMaxValues(data.maxValues);
 
-    let minValues = resolveMinValues(data.min_values);
+    const minValues = resolveMinValues(data.minValues);
 
     return {
         type: ComponentTypes.SELECT_MENU,
         placeholder: data.placeholder,
         custom_id: data.custom_id,
         options: options,
-        max_values: maxValues,
-        min_values: minValues,
+        maxValues: maxValues,
+        minValues: minValues,
     };
 }
-export function resolveMenuOptions(data: any) {
+
+/**
+ * Resolves menu options into a single array.
+ * @param  {objMenuOption[]} data
+ * @returns objMenuOption
+ */
+export function resolveMenuOptions(data: objMenuOption[]): objMenuOption[] {
     if (!Array.isArray(data))
         throw new ErisComponentsError(
             'INVALID_MENU_OPTIONS',
             'The select menu options must be an array.'
         );
 
-    let options: { label: any; value: any; emoji: any; description: any }[] =
-        [];
+    const options: objMenuOption[] = [];
 
     data.map((d) => {
         if (!d.value)
@@ -171,19 +198,40 @@ export function resolveMenuOptions(data: any) {
             value: d.value,
             emoji: d.emoji,
             description: d.description,
+            default: d.default
         });
     });
 
     return options;
 }
-export function resolveMaxValues(m1: number, m2?: number) {
+
+/**
+ * Kinda useless.
+ * @param  {number} m1
+ * @param  {number} m2?
+ * @returns number
+ */
+export function resolveMaxValues(m1: number, m2?: number): number {
     return m1 || m2;
 }
-export function resolveMinValues(m1: number, m2?: number) {
+
+/**
+ * Kinda useless.
+ * @param  {number} m1
+ * @param  {number} m2?
+ * @returns number
+ */
+export function resolveMinValues(m1: number, m2?: number): number {
     return m1 || m2;
 }
-export function testEmoji(string: string) {
-    let emojiRegex =
+
+/**
+ * Resolves if a string is an utf8 emoji.
+ * @param  {string} string
+ * @returns boolean
+ */
+export function testEmoji(string: string): boolean {
+    const emojiRegex =
         /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
     return emojiRegex.test(string);
 }
