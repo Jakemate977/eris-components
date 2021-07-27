@@ -1,4 +1,5 @@
-const ErisComponents = require('../lib/index.js');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const ErisComponents = require('../src/index.js');
 
 const Eris = require('eris');
 
@@ -6,7 +7,9 @@ const token = 'Bot ODY0NTg5NjcyNjM3MTM2ODk2.YO3p4Q.RI6cAHe8AtXCtF99NKFvI11VVcg';
 
 const ErisClient = new Eris(token);
 
-const client = ErisComponents(ErisClient, token);
+const client = ErisComponents.Client(ErisClient, token);
+
+console.log(client)
 
 // Enviar Botones
 
@@ -61,9 +64,9 @@ let row2 = new ErisComponents.ActionRow().addComponents([button3, button4]);
 
 //console.log(JSON.stringify(row, null, 2));
 
-//ErisClient.connect()
+client.connect()
 
-ErisClient.on('messageCreate', async (message) => {
+client.on('messageCreate', async (message) => {
     if (message.content == '.sasota') {
         await client.sendComponents(message.channel.id, menu, 'menuzaso');
 
@@ -79,7 +82,7 @@ ErisClient.on('messageCreate', async (message) => {
                 message.channel.id,
                 { time: 30000 }
             )
-            .catch((err) => {
+            .catch(() => {
                 console.log('Fuera de tiempo.');
             });
 
@@ -87,11 +90,11 @@ ErisClient.on('messageCreate', async (message) => {
     }
 });
 
-ErisClient.on('clickButton', async (data) => {
+client.on('clickButton', async () => {
     console.log('Boton clikado');
 });
 
-ErisClient.on('clickMenu', async (data) => {
+client.on('clickMenu', async () => {
     console.log('Menu clikado');
 });
 
@@ -136,7 +139,7 @@ client.on('clickButton', async resBody => {
 })
 
 */
-
+/*
 test('que se muestre un menu valido', () => {
     expect(JSON.parse(JSON.stringify(menu.toJSON(), null, 3))).toBe({
         type: 3,
@@ -164,3 +167,4 @@ test('que se muestre un menu valido', () => {
     // await client.sendComponents(message.channel.id, menu, { embed:{o embed con contenido}, content: 'contenido', y todas las opciones de la api de discord si que se pueden hacer enviando un mensaje
 }); // yo creo que esta bien
 //hola pero el intellisense
+*/

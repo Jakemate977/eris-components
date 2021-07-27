@@ -16,6 +16,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-		"no-extra-semi": "off"
+		"no-extra-semi": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }

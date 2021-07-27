@@ -1,18 +1,13 @@
-import { ErisComponentsError, resolveString } from '../util';
-import { objMenuOption, Emoji } from '../constants';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { ErisComponentsError, resolveString } = require('../util');
 
-export default class ErisMenuOption {
-    label!: string;
-    value!: string;
-    description?: string;
-    emoji?: Emoji;
-    default?: boolean = false; 
+class ErisMenuOption {
 
     constructor(obj = {}) {
         this.setup(obj);
     }
 
-    setup(obj: objMenuOption): this {
+    setup(obj) {
         this.label =
             'label' in obj && obj.label ? resolveString(obj.label) : null;
 
@@ -26,47 +21,50 @@ export default class ErisMenuOption {
         return this;
     }
 
-    setLabel(label: string): this {
+    setLabel(label) {
         this.label = resolveString(label);
         return this;
     }
 
-    setValue(value: string): this {
+    setValue(value) {
         this.value = resolveString(value);
         return this;
     }
 
-    setDescription(value: string): this {
+    setDescription(value) {
         this.description = resolveString(value);
         return this;
     }
 
-    setDefault(def = true): this {
+    setDefault(def = true) {
         this.default = def;
         return this;
     }
 
-    setEmoji(emoji: Emoji, animated?: boolean): this {
+    setEmoji(emoji, animated) {
         if (!emoji)
             throw new ErisComponentsError(
                 'MISSING_EMOJI_ON_OPTION',
                 'The setEmoji must use an emoji.'
             );
 
-        if (!isNaN(emoji)) this.emoji.id = emoji;
+        if (!isNaN(emoji)) this.emoji = Object.assign({}, (this.emoji || {}), { id: emoji })
 
-        if (!isNaN(emoji.id)) this.emoji.id = emoji.id;
+        if (!isNaN(emoji.id)) this.emoji = Object.assign({}, (this.emoji || {}), { id: emoji.id })
 
-        if (emoji.name) this.emoji.name = emoji.name;
+        if (emoji.name) this.emoji = Object.assign({}, (this.emoji || {}), { name: emoji.name })
 
-        if (!this.emoji.id && !this.emoji.name) this.emoji.name = emoji;
+        if (!this.emoji || !this.emoji.id && !this.emoji.name) {
+            this.emoji = {}
+            this.emoji.name = emoji;
+        } 
 
         if (typeof animated === 'boolean') this.emoji.animated = animated;
 
         return this;
     }
 
-    toJSON(): objMenuOption {
+    toJSON() {
         return {
             label: this.label,
             value: this.value,
@@ -76,3 +74,5 @@ export default class ErisMenuOption {
         };
     }
 }
+
+module.exports = ErisMenuOption

@@ -1,30 +1,24 @@
-import Eris from 'eris';
-import * as axios from 'axios';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const Eris = require('eris');
+const axios = require('axios');
 
-import { ComponentTypes, baseURL } from './constants';
-import { ErisComponentsError } from './util';
+const { ComponentTypes, baseURL } = require('./constants');
+const { ErisComponentsError } = require('./util');
+const Util = require('./util');
+const Constants = require('./constants');
 
-import ActionRow from './classes/ActionRow';
-import Button from './classes/Button';
-import Menu from './classes/Menu';
-import MenuOption from './classes/MenuOption';
+const ActionRow = require('./classes/ActionRow');
+const Button = require('./classes/Button');
+const Menu = require('./classes/Menu');
+const MenuOption = require('./classes/MenuOption');
 
-export * as ActionRow from './classes/ActionRow';
-export * as Button from './classes/Button';
-export * as Menu from './classes/Menu';
-export * as MenuOption from './classes/MenuOption';
-export * as Util from './util';
-export * as constants from './constants';
 /**
  * The Eris client.
  * @param  {Eris.Client} ErisClient
  * @param  {string} botToken
  * @returns Eris
  */
-export default function Client(
-    ErisClient: Eris.Client,
-    botToken: string
-): Eris.Client {
+function Client(ErisClient, botToken) {
     if (!botToken)
         throw new ErisComponentsError(
             'NO_TOKEN_PROVIDED',
@@ -45,7 +39,7 @@ export default function Client(
 
     botToken = botToken.replace('Bot ', '');
 
-    ErisClient.on('rawWS', async (packet: any) => {
+    ErisClient.on('rawWS', async (packet) => {
         if (packet.t === 'INTERACTION_CREATE') {
             const data = packet.d;
 
@@ -63,11 +57,7 @@ export default function Client(
         }
     });
 
-    ErisClient.sendComponents = async function (
-        channel: string,
-        components: any,
-        content: any
-    ) {
+    ErisClient.sendComponents = async function (channel, components, content) {
         if (!channel)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -149,11 +139,7 @@ export default function Client(
         }
     };
 
-    ErisClient.editInteraction = async function (
-        resBody: any,
-        components: any,
-        content: any
-    ) {
+    ErisClient.editInteraction = async function (resBody, components, content) {
         if (!resBody)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -266,13 +252,7 @@ export default function Client(
         }
     };
 
-    ErisClient.replyInteraction = async function (
-        resBody: any,
-        components: any,
-        content: any,
-        options: any,
-        type: number
-    ) {
+    ErisClient.replyInteraction = async function (resBody, components, content, options, type) {
         if (!resBody)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -395,12 +375,7 @@ export default function Client(
         }
     };
 
-    ErisClient.awaitComponents = async function (
-        filter: any,
-        channel: string,
-        options: any,
-        thisArg: any
-    ) {
+    ErisClient.awaitComponents = async function (filter, channel, options, thisArg) {
         if (!filter)
             throw new ErisComponentsError(
                 'REQUIRED_FILTER',
@@ -414,7 +389,7 @@ export default function Client(
             );
 
         return await new Promise((resolve, reject) => {
-            ErisClient.on('rawWS', async (packet: any) => {
+            ErisClient.on('rawWS', async (packet) => {
                 if (packet.t === 'INTERACTION_CREATE') {
                     const data = packet.d;
 
@@ -438,13 +413,7 @@ export default function Client(
         });
     };
 
-    ErisClient.request = async function (
-        body: any,
-        resBody: any,
-        userEndpoint: string,
-        userHeaders: any,
-        userMethod: string
-    ) {
+    ErisClient.request = async function (body, resBody, userEndpoint, userHeaders, userMethod) {
         if (!resBody && !userEndpoint)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -473,11 +442,11 @@ export default function Client(
             data: JSON.parse(JSON.stringify(body)),
             headers: headers,
         })
-            .then((result: { data: any }) => {
+            .then((result) => {
                 return result.data;
             })
             .catch(
-                (error: { response: { data: any }; toString: () => any }) => {
+                (error) => {
                     if (error.response) {
                         throw new ErisComponentsError(
                             'ERROR_ON_REQUEST',
@@ -498,4 +467,14 @@ export default function Client(
     };
 
     return ErisClient;
+}
+
+module.exports = {
+    Client: Client,
+    ActionRow: ActionRow,
+    Button: Button,
+    Menu: Menu,
+    MenuOption: MenuOption,
+    Util: Util,
+    Constants: Constants
 }

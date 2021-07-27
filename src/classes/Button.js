@@ -1,28 +1,23 @@
-import {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const {
     ErisComponentsError,
     resolveStyle,
     resolveString,
     testEmoji,
-} from '../util';
+} = require('../util');
 
-import { ComponentTypes, ButtonStyles, objButton } from '../constants';
+const { ComponentTypes } = require('../constants');
 
-export default class Button {
-    style!: keyof typeof ButtonStyles;
-    label!: string; 
-    disabled?: boolean = false;
-    emoji?: string;
-    url?: string; //hola lee discord
-    custom_id?: string;
+class Button {
     /**
      * Button's constructor, you can pass the raw JSON here.
      * @param  {objButton} obj
      */
-    constructor(obj?: objButton = {}) {
+    constructor(obj = {}) {
         this.setup(obj);
     }
 
-    setup(obj: objButton): this {
+    setup(obj) {
         this.style = resolveStyle(obj.style);
 
         this.label =
@@ -47,32 +42,32 @@ export default class Button {
         return this;
     }
 
-    setStyle(style: string | null | undefined): this {
+    setStyle(style) {
         this.style = resolveStyle(style);
         return this;
     }
 
-    setLabel(label: string | null | undefined): this {
+    setLabel(label) {
         this.label = resolveString(label);
         return this;
     }
 
-    setDisabled(disabled = true): this {
+    setDisabled(disabled = true) {
         this.disabled = disabled;
         return this;
     }
 
-    setURL(url: string | null | undefined): this {
+    setURL(url) {
         this.url = resolveString(url);
         return this;
     }
 
-    setID(custom_id: string | null | undefined): this {
+    setID(custom_id) {
         this.custom_id = resolveString(custom_id);
         return this;
     }
 
-    setEmoji(emoji: any, animated: boolean): this {
+    setEmoji(emoji, animated) {
         if (!emoji) return this;
 
         if (testEmoji(emoji) === true) {
@@ -115,3 +110,5 @@ export default class Button {
         };
     }
 }
+
+module.exports = Button

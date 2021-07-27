@@ -1,15 +1,13 @@
-import { ErisComponentsError } from '../util';
-import { ComponentTypes, objAction, objMenu, objButton } from '../constants';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { ErisComponentsError } = require('../util');
+const { ComponentTypes } = require('../constants');
 
-export default class ErisActionRow {
-    components: objButton[] | objMenu[] = [];
-    type?: number;
-
+class ErisActionRow {
     constructor(obj = {}) {
         this.setup(obj);
     }
 
-    setup(obj: objAction): this {
+    setup(obj) {
         this.type = ComponentTypes.ACTION_ROW;
 
         this.components = obj.components ? obj.components : [];
@@ -17,7 +15,7 @@ export default class ErisActionRow {
         return this;
     }
 
-    addComponents(components: objAction["components"]): this {
+    addComponents(components) {
         if (Array.isArray(components)) {
             components.forEach((component) => {
                 return this.components.push(component);
@@ -28,11 +26,11 @@ export default class ErisActionRow {
         return this;
     }
 
-    addComponent(component: any): this {
+    addComponent(component) {
         return this.addComponents(component);
     }
 
-    setComponents(componentsArr: any[]): this {
+    setComponents(componentsArr) {
         if (Array.isArray(componentsArr)) {
             this.components = componentsArr;
         } else {
@@ -44,10 +42,12 @@ export default class ErisActionRow {
         return this;
     }
 
-    toJSON(): objAction {
+    toJSON() {
         return {
             components: this.components,
             type: ComponentTypes.ACTION_ROW,
         };
     }
 }
+
+module.exports = ErisActionRow

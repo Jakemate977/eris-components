@@ -1,26 +1,20 @@
-import {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const {
     ErisComponentsError,
     resolveMaxValues,
     resolveMinValues,
-} from '../util';
-import { ComponentTypes, objMenu, objMenuOption } from '../constants';
+} = require('../util');
+const { ComponentTypes } = require('../constants');
 
 
-export default class ErisSelectMenu {
-    id: string | undefined;
-    option: any;
-    placeholder: string | undefined;
-    max_values: number | null | undefined;
-    min_values: number | null | undefined;
-    options: objMenuOption | undefined;
-    custom_id: string | null | undefined;
-    disabled: boolean | undefined;
+class ErisSelectMenu {
+
 
     constructor(obj = {}) {
         this.setup(obj);
     }
 
-    setup(obj: objMenu): this {
+    setup(obj) {
         this.placeholder = 'placeholder' in obj ? obj.placeholder : null;
 
         this.max_values =
@@ -55,32 +49,32 @@ export default class ErisSelectMenu {
         return this;
     }
 
-    setPlaceholder(placeholder: string): this {
+    setPlaceholder(placeholder) {
         this.placeholder = placeholder;
         return this;
     }
 
-    setID(id: string): this {
+    setID(id) {
         this.custom_id = id;
         return this;
     }
 
-    setMaxValues(number: number): this {
+    setMaxValues(number) {
         this.max_values = resolveMaxValues(number);
         return this;
     }
 
-    setMinValues(number: number): this {
+    setMinValues(number) {
         this.min_values = resolveMinValues(number);
         return this;
     }
 
-    setDisabled(disabled = true): this {
+    setDisabled(disabled = true) {
         this.disabled = disabled;
         return this;
     }
 
-    addOptions(options: Record<string, any>): this {
+    addOptions(options) {
         if (Array.isArray(options)) {
             options.forEach((option) => {
                 this.options.push(option);
@@ -91,11 +85,11 @@ export default class ErisSelectMenu {
         return this;
     }
 
-    addOption(options: any): this {
+    addOption(options) {
         return this.addOptions(options);
     }
 
-    setOptions(optionsArr: Record<string, any>[]): this {
+    setOptions(optionsArr) {
         if (Array.isArray(optionsArr)) {
             this.options = optionsArr;
         } else {
@@ -107,7 +101,7 @@ export default class ErisSelectMenu {
         return this;
     }
 
-    toJSON(): objMenu {
+    toJSON() {
         return {
             type: ComponentTypes.SELECT_MENU,
             placeholder: this.placeholder,
@@ -118,3 +112,5 @@ export default class ErisSelectMenu {
         };
     }
 }
+
+module.exports = ErisSelectMenu
