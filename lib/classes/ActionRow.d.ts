@@ -1,19 +1,11 @@
-import { ComponentTypes } from '../constants';
-interface objAction {
-    components?: any[];
-    type?: number | undefined;
-}
+import { objAction, objMenu, objButton } from '../constants';
 export default class ErisActionRow {
-    components: any[];
-    type?: number | undefined;
+    components: objButton[] | objMenu[];
+    type?: number;
     constructor(obj?: {});
     setup(obj: objAction): this;
-    addComponents(components: any[]): this;
+    addComponents(components: objAction["components"]): this;
     addComponent(component: any): this;
     setComponents(componentsArr: any[]): this;
-    toJSON(): {
-        components: any[];
-        type: ComponentTypes;
-    };
+    toJSON(): objAction;
 }
-export {};

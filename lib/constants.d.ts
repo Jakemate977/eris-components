@@ -16,4 +16,38 @@ export declare enum ButtonStyles {
     'danger' = 4,
     'link' = 5
 }
-export declare const baseURL: string;
+export interface Emoji {
+    name?: string;
+    id?: string;
+}
+export interface objMenuOption {
+    label: string;
+    value: string;
+    description?: string;
+    emoji?: Emoji;
+    default?: boolean;
+}
+export interface objMenu {
+    type?: ComponentTypes.SELECT_MENU;
+    minValues?: number;
+    maxValues?: number;
+    placeholder?: string;
+    options: objMenuOption[];
+    custom_id: string;
+    disabled?: boolean;
+}
+export interface objButton {
+    style: keyof typeof ButtonStyles;
+    label: string;
+    disabled?: boolean;
+    emoji?: string | Emoji;
+    url?: string;
+    custom_id?: string;
+    type?: ComponentTypes.BUTTON;
+}
+export interface objAction {
+    components: objButton[] | objMenu[];
+    type?: number;
+}
+export declare const VERSION = "0.0.1";
+export declare const baseURL = "https://discord.com/api/v9";

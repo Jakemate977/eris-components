@@ -1,29 +1,16 @@
-interface objMenuOption {
-    label?: string | null | undefined;
-    value?: string | null | undefined;
-    description?: string | null | undefined;
-    emoji?: any;
-    default?: boolean | undefined;
-}
+import { objMenuOption, Emoji } from '../constants';
 export default class ErisMenuOption {
-    label: string | null | undefined;
-    value: string | null | undefined;
-    description: string | null | undefined;
-    emoji: any;
-    default: boolean | undefined;
+    label: string;
+    value: string;
+    description?: string;
+    emoji?: Emoji;
+    default?: boolean;
     constructor(obj?: {});
     setup(obj: objMenuOption): this;
     setLabel(label: string): this;
     setValue(value: string): this;
     setDescription(value: string): this;
     setDefault(def?: boolean): this;
-    setEmoji(emoji: any, animated?: boolean): this;
-    toJSON(): {
-        label: string | null | undefined;
-        value: string | null | undefined;
-        default: boolean | undefined;
-        emoji: any;
-        description: string | null | undefined;
-    };
+    setEmoji(emoji: Emoji, animated?: boolean): this;
+    toJSON(): objMenuOption;
 }
-export {};

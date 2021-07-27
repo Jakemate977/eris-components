@@ -1,20 +1,16 @@
-import { ComponentTypes, ButtonStyles } from '../constants';
-interface objButton {
+import { ComponentTypes, ButtonStyles, objButton } from '../constants';
+export default class Button {
     style: keyof typeof ButtonStyles;
     label: string;
     disabled?: boolean;
     emoji?: string;
     url?: string;
     custom_id?: string;
-}
-export default class ErisButton {
-    style: keyof typeof ButtonStyles;
-    label: string;
-    disabled?: boolean;
-    emoji?: string;
-    url?: string;
-    custom_id?: string;
-    constructor(obj?: {});
+    /**
+     * Button's constructor, you can pass the raw JSON here.
+     * @param  {objButton} obj
+     */
+    constructor(obj?: objButton);
     setup(obj: objButton): this;
     setStyle(style: string | null | undefined): this;
     setLabel(label: string | null | undefined): this;
@@ -32,4 +28,3 @@ export default class ErisButton {
         custom_id: string | undefined;
     };
 }
-export {};

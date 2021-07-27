@@ -17,8 +17,8 @@ export * as Util from './util';
 export * as constants from './constants';
 /**
  * The Eris client.
- * @param  {Eris.Client} ErisClient
- * @param  {string} botToken
+ * @param  {Eris.Client} Client - An active client of eris.
+ * @param  {string} botToken - The token of your bot.
  * @returns Eris
  */
 export default function Client(
