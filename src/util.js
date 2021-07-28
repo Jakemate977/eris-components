@@ -232,6 +232,7 @@ function testEmoji(string) {
 }
 
 module.exports = {
+    ErisComponentsError: ErisComponentsError,
     resolveStyle: resolveStyle,
     resolveString: resolveString,
     resolveButton: resolveButton,

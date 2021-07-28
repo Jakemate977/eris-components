@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const Eris = require('eris');
+const { Client } = require('eris');
 const axios = require('axios');
 
 const { ComponentTypes, baseURL } = require('./constants');
@@ -9,16 +9,18 @@ const Constants = require('./constants');
 
 const ActionRow = require('./classes/ActionRow');
 const Button = require('./classes/Button');
+const ComponentsCollector = require('./classes/ComponentsCollector');
 const Menu = require('./classes/Menu');
 const MenuOption = require('./classes/MenuOption');
 
+
 /**
  * The Eris client.
- * @param  {Eris.Client} ErisClient
+ * @param  {Client} ErisClient
  * @param  {string} botToken
  * @returns Eris
  */
-function Client(ErisClient, botToken) {
+function ErisComponentsClient(ErisClient, botToken) {
     if (!botToken)
         throw new ErisComponentsError(
             'NO_TOKEN_PROVIDED',
@@ -31,7 +33,7 @@ function Client(ErisClient, botToken) {
             'No Eris Client provided on ErisComponents.Client function.'
         );
 
-    if (!(ErisClient instanceof Eris.Client))
+    if (!(ErisClient instanceof Client))
         throw new ErisComponentsError(
             'INVALID_CLIENT_INSTANCE',
             'Invalid instace of Eris Client provided on ErisComponents.Client function.'
@@ -39,19 +41,27 @@ function Client(ErisClient, botToken) {
 
     botToken = botToken.replace('Bot ', '');
 
+    if (!botToken)
+        throw new ErisComponentsError(
+            'EMPTY_TOKEN_PROVIDED',
+            'An empty Token has been provided on ErisComponents.Client function.'
+        );
+
     ErisClient.on('rawWS', async (packet) => {
         if (packet.t === 'INTERACTION_CREATE') {
-            const data = packet.d;
+            const resBody = packet.d;
 
-            if (!data.data.component_type) return;
+            if (!resBody.data.component_type) return;
 
-            switch (data.data.component_type) {
+            switch (resBody.data.component_type) {
                 case ComponentTypes.BUTTON:
-                    ErisClient.emit('clickButton', data);
+                    ErisClient.emit('clickButton', resBody);
+                    ErisClient.emit('componentInteract', resBody);
                     break;
 
                 case ComponentTypes.SELECT_MENU:
-                    ErisClient.emit('clickMenu', data);
+                    ErisClient.emit('submitMenu', resBody);
+                    ErisClient.emit('componentInteract', resBody);
                     break;
             }
         }
@@ -389,17 +399,13 @@ function Client(ErisClient, botToken) {
             );
 
         return await new Promise((resolve, reject) => {
-            ErisClient.on('rawWS', async (packet) => {
-                if (packet.t === 'INTERACTION_CREATE') {
-                    const data = packet.d;
+            ErisClient.on('componentInteract', async (resBody) => {
+                if (!resBody.data.component_type) return;
 
-                    if (!data.data.component_type) return;
+                if (resBody.channel_id != channel) return;
 
-                    if (data.channel_id != channel) return;
-
-                    if (await filter.call(thisArg, data)) {
-                        resolve(data);
-                    }
+                if (await filter.call(thisArg, resBody)) {
+                    resolve(resBody);
                 }
             });
 
@@ -412,6 +418,23 @@ function Client(ErisClient, botToken) {
             }
         });
     };
+
+    ErisClient.createComponentsCollector = function (filter, channel, options, thisArg) {
+        if (!filter)
+            throw new ErisComponentsError(
+                'REQUIRED_FILTER',
+                'You need to provide a filter to ErisClient.awaitComponents function.'
+            );
+
+        if (!channel)
+            throw new ErisComponentsError(
+                'REQUIRED_CHANNEL',
+                'You need to provide a channel to ErisClient.awaitComponents function.'
+            );
+
+        return new ComponentsCollector(ErisClient, filter, channel, options, thisArg);
+
+    }
 
     ErisClient.request = async function (body, resBody, userEndpoint, userHeaders, userMethod) {
         if (!resBody && !userEndpoint)
@@ -459,7 +482,7 @@ function Client(ErisClient, botToken) {
                     } else {
                         throw new ErisComponentsError(
                             'ERROR_ON_REQUEST',
-                            `An error occurred while making the request ErisClient.request function:  ${error.toString()}`
+                            `An error occurred while making the request ErisClient.request function: ${error.toString()}`
                         );
                     }
                 }
@@ -470,9 +493,10 @@ function Client(ErisClient, botToken) {
 }
 
 module.exports = {
-    Client: Client,
+    Client: ErisComponentsClient,
     ActionRow: ActionRow,
     Button: Button,
+    ComponentsCollector: ComponentsCollector,
     Menu: Menu,
     MenuOption: MenuOption,
     Util: Util,
