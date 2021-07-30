@@ -1,10 +1,16 @@
-import { ButtonStyles, ComponentTypes, objButton, objMenu, objMenuOption } from '../lib/constants';
+import {
+    ButtonStyles,
+    ComponentTypes,
+    objButton,
+    objMenu,
+    objMenuOption,
+} from '../lib/constants';
 export declare class ErisComponentsError extends Error {
     /**
      * Throw an error.
      * @param  {string} code
      * @param  {string} message
-    */
+     */
     constructor(code: string, message: string);
 }
 /**
@@ -12,7 +18,9 @@ export declare class ErisComponentsError extends Error {
  * @param  {keyof typeof ButtonStyles} style
  * @returns ButtonStyles
  */
-export declare function resolveStyle(style: keyof typeof ButtonStyles): ButtonStyles;
+export declare function resolveStyle(
+    style: keyof typeof ButtonStyles
+): ButtonStyles;
 /**
  * Returns the data as a string, if the data is an array it joins all its components into 1 string.
  * @param  {unknown} data
@@ -30,7 +38,9 @@ export declare function resolveButton(data: objButton): objButton;
  * @param  {keyof typeof ComponentTypes} type
  * @returns ComponentTypes
  */
-export declare function resolveType(type: keyof typeof ComponentTypes): ComponentTypes;
+export declare function resolveType(
+    type: keyof typeof ComponentTypes
+): ComponentTypes;
 /**
  * Resolves a menu into an object.
  * @param  {objMenu} data
@@ -42,7 +52,9 @@ export declare function resolveMenu(data: objMenu): objMenu;
  * @param  {objMenuOption[]} data
  * @returns objMenuOption
  */
-export declare function resolveMenuOptions(data: objMenuOption[]): objMenuOption[];
+export declare function resolveMenuOptions(
+    data: objMenuOption[]
+): objMenuOption[];
 /**
  * Kinda useless.
  * @param  {number} m1

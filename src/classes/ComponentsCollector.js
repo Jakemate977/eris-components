@@ -5,11 +5,11 @@ const { ErisComponentsError } = require('../util');
 const EventEmitter = require('events');
 
 class ErisComponentsCollector extends EventEmitter {
-    constructor (ErisClient, filter, channel, options, thisArg) {
-        super()
-        this.collections = []
-        this.endedBool = false
-        this.EClient = ErisClient
+    constructor(ErisClient, filter, channel, options, thisArg) {
+        super();
+        this.collections = [];
+        this.endedBool = false;
+        this.EClient = ErisClient;
 
         if (!ErisClient)
             throw new ErisComponentsError(
@@ -22,7 +22,6 @@ class ErisComponentsCollector extends EventEmitter {
                 'INVALID_CLIENT_INSTANCE',
                 'Invalid instace of Eris Client provided on ErisComponents.ComponentsCollector function.'
             );
-
 
         if (!filter)
             throw new ErisComponentsError(
@@ -42,39 +41,40 @@ class ErisComponentsCollector extends EventEmitter {
             if (data.channel_id != channel) return;
 
             if (await filter.call(thisArg, data)) {
-                this.collections.push(data)
+                this.collections.push(data);
                 this.emit('collect', data);
             }
-        }
+        };
 
         this.EClient.on('componentInteract', listenerFN);
 
         if (options.time) {
-            new Promise((resolve) => setTimeout(resolve, options.time)).then(() => {
-                this.emit('preEnd', true);
-            })
+            new Promise((resolve) => setTimeout(resolve, options.time)).then(
+                () => {
+                    this.emit('preEnd', true);
+                }
+            );
         }
 
         this.on('preEnd', () => {
-            this.endedBool = true
-            this.EClient.removeListener('componentInteract', listenerFN)
+            this.endedBool = true;
+            this.EClient.removeListener('componentInteract', listenerFN);
             this.emit('end', this.collections);
-        })
+        });
     }
 
     get ended() {
-        return this.endedBool
+        return this.endedBool;
     }
 
     get collected() {
-        return this.collections
+        return this.collections;
     }
 
     stop() {
         this.emit('preEnd', true);
-        return true
+        return true;
     }
 }
 
-
-module.exports = ErisComponentsCollector
+module.exports = ErisComponentsCollector;

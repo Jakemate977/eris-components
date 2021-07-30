@@ -1,6 +1,6 @@
 {
   "name": "eris-components",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Eris Components allows you to use Discord buttons and other components interacting with the Discord API.",
   "main": "src/index.js",
   "directories": {
@@ -9,7 +9,10 @@
   },
   "scripts": {
     "test": "node test/test.js",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "yarn eslint .",
+    "fix": "yarn eslint --fix .",
+    "pretty": "yarn prettier --write ."
   },
   "keywords": [
     "eris buttons",
@@ -26,7 +29,6 @@
   "author": "tnfAngel, Jakemate977",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
     "eris": "^0.15.1"
   },
   "devDependencies": {

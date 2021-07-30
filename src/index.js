@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { Client } = require('eris');
-const axios = require('axios');
 
-const { ComponentTypes, baseURL } = require('./constants');
+const { ComponentTypes } = require('./constants');
 const { ErisComponentsError } = require('./util');
 const Util = require('./util');
 const Constants = require('./constants');
@@ -13,20 +12,12 @@ const ComponentsCollector = require('./classes/ComponentsCollector');
 const Menu = require('./classes/Menu');
 const MenuOption = require('./classes/MenuOption');
 
-
 /**
  * The Eris client.
  * @param  {Client} ErisClient
- * @param  {string} botToken
  * @returns Eris
  */
-function ErisComponentsClient(ErisClient, botToken) {
-    if (!botToken)
-        throw new ErisComponentsError(
-            'NO_TOKEN_PROVIDED',
-            'No Token provided on ErisComponents.Client function.'
-        );
-
+function ErisComponentsClient(ErisClient) {
     if (!ErisClient)
         throw new ErisComponentsError(
             'NO_CLIENT_PROVIDED',
@@ -39,17 +30,15 @@ function ErisComponentsClient(ErisClient, botToken) {
             'Invalid instace of Eris Client provided on ErisComponents.Client function.'
         );
 
-    botToken = botToken.replace('Bot ', '');
-
-    if (!botToken)
-        throw new ErisComponentsError(
-            'EMPTY_TOKEN_PROVIDED',
-            'An empty Token has been provided on ErisComponents.Client function.'
-        );
-
     ErisClient.on('rawWS', async (packet) => {
         if (packet.t === 'INTERACTION_CREATE') {
             const resBody = packet.d;
+
+            ErisClient.emit('interactionCreate', resBody);
+
+            if (resBody.type === 2) {
+                ErisClient.emit('slashCommandInteract', resBody);
+            }
 
             if (!resBody.data.component_type) return;
 
@@ -64,10 +53,11 @@ function ErisComponentsClient(ErisClient, botToken) {
                     ErisClient.emit('componentInteract', resBody);
                     break;
             }
+
         }
     });
 
-    ErisClient.sendComponents = async function (channel, components, content) {
+    ErisClient.sendComponents = async function (channel, components, content, file) {
         if (!channel)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -99,7 +89,7 @@ function ErisComponentsClient(ErisClient, botToken) {
             if (typeof content == 'object')
                 body = Object.assign({}, body, content);
 
-            return await ErisClient.request(body, null, endpoint);
+            return await ErisClient.request(body, null, endpoint, 'POST', file);
         } else if (components instanceof ActionRow) {
             body = {
                 content:
@@ -111,7 +101,7 @@ function ErisComponentsClient(ErisClient, botToken) {
             if (typeof content == 'object')
                 body = Object.assign({}, body, content);
 
-            return await ErisClient.request(body, null, endpoint);
+            return await ErisClient.request(body, null, endpoint, 'POST', file);
         } else if (components instanceof Menu) {
             body = {
                 content:
@@ -128,7 +118,7 @@ function ErisComponentsClient(ErisClient, botToken) {
             if (typeof content == 'object')
                 body = Object.assign({}, body, content);
 
-            return await ErisClient.request(body, null, endpoint);
+            return await ErisClient.request(body, null, endpoint, 'POST', file);
         } else if (Array.isArray(components)) {
             body = {
                 content:
@@ -140,7 +130,7 @@ function ErisComponentsClient(ErisClient, botToken) {
             if (typeof content == 'object')
                 body = Object.assign({}, body, content);
 
-            return await ErisClient.request(body, null, endpoint);
+            return await ErisClient.request(body, null, endpoint, 'POST', file);
         } else {
             throw new ErisComponentsError(
                 'INVALID_COMPONENT_TYPE',
@@ -149,7 +139,7 @@ function ErisComponentsClient(ErisClient, botToken) {
         }
     };
 
-    ErisClient.editInteraction = async function (resBody, components, content) {
+    ErisClient.editInteraction = async function (resBody, components, content, file) {
         if (!resBody)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -184,7 +174,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: 7,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components instanceof ActionRow) {
             data = {
                 content:
@@ -200,7 +190,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: 7,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components instanceof Menu) {
             data = {
                 content:
@@ -222,7 +212,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: 7,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (Array.isArray(components)) {
             data = {
                 content:
@@ -238,7 +228,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: 7,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components) {
             throw new ErisComponentsError(
                 'INVALID_COMPONENT_TYPE',
@@ -258,11 +248,18 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: 7,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         }
     };
 
-    ErisClient.replyInteraction = async function (resBody, components, content, options, type) {
+    ErisClient.replyInteraction = async function (
+        resBody,
+        components,
+        content,
+        options,
+        type,
+        file
+    ) {
         if (!resBody)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -299,7 +296,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: type ? type : 4,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components instanceof ActionRow) {
             data = {
                 content:
@@ -317,7 +314,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: type ? type : 4,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components instanceof Menu) {
             data = {
                 content:
@@ -341,7 +338,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: type ? type : 4,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (Array.isArray(components)) {
             data = {
                 content:
@@ -359,7 +356,7 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: type ? type : 4,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         } else if (components) {
             throw new ErisComponentsError(
                 'INVALID_COMPONENT_TYPE',
@@ -381,11 +378,16 @@ function ErisComponentsClient(ErisClient, botToken) {
                 type: type ? type : 4,
             };
 
-            return await ErisClient.request(body, resBody);
+            return await ErisClient.request(body, resBody, null, 'POST', file);
         }
     };
 
-    ErisClient.awaitComponents = async function (filter, channel, options, thisArg) {
+    ErisClient.awaitComponents = async function (
+        filter,
+        channel,
+        options,
+        thisArg
+    ) {
         if (!filter)
             throw new ErisComponentsError(
                 'REQUIRED_FILTER',
@@ -419,7 +421,12 @@ function ErisComponentsClient(ErisClient, botToken) {
         });
     };
 
-    ErisClient.createComponentsCollector = function (filter, channel, options, thisArg) {
+    ErisClient.createComponentsCollector = function (
+        filter,
+        channel,
+        options,
+        thisArg
+    ) {
         if (!filter)
             throw new ErisComponentsError(
                 'REQUIRED_FILTER',
@@ -432,11 +439,22 @@ function ErisComponentsClient(ErisClient, botToken) {
                 'You need to provide a channel to ErisClient.awaitComponents function.'
             );
 
-        return new ComponentsCollector(ErisClient, filter, channel, options, thisArg);
-
-    }
-
-    ErisClient.request = async function (body, resBody, userEndpoint, userHeaders, userMethod) {
+        return new ComponentsCollector(
+            ErisClient,
+            filter,
+            channel,
+            options,
+            thisArg
+        );
+    };
+    
+    ErisClient.request = async function (
+        body,
+        resBody,
+        userEndpoint,
+        userMethod,
+        userFile
+    ) {
         if (!resBody && !userEndpoint)
             throw new ErisComponentsError(
                 'REQUIRED_FIELDS_ON_REQUEST',
@@ -453,40 +471,23 @@ function ErisComponentsClient(ErisClient, botToken) {
             ? userEndpoint
             : `/interactions/${resBody.id}/${resBody.token}/callback`;
 
-        let headers = userHeaders
-            ? userHeaders
-            : {
-                  'Authorization': 'Bot ' + botToken,
-                  'Content-Type': 'application/json',
-              };
-
-        return await axios(`${baseURL}${endpoint}`, {
-            method: userMethod ? userMethod.toLowerCase() : 'post',
-            data: JSON.parse(JSON.stringify(body)),
-            headers: headers,
-        })
+        ErisClient.requestHandler
+            .request(
+                userMethod ? userMethod.toUpperCase() : 'POST',
+                endpoint,
+                true,
+                JSON.parse(JSON.stringify(body)),
+                userFile
+            )
             .then((result) => {
                 return result.data;
             })
-            .catch(
-                (error) => {
-                    if (error.response) {
-                        throw new ErisComponentsError(
-                            'ERROR_ON_REQUEST',
-                            `An error occurred while making the request on ErisClient.request function: ${JSON.stringify(
-                                error.response.data,
-                                null,
-                                2
-                            )}`
-                        );
-                    } else {
-                        throw new ErisComponentsError(
-                            'ERROR_ON_REQUEST',
-                            `An error occurred while making the request ErisClient.request function: ${error.toString()}`
-                        );
-                    }
-                }
-            );
+            .catch((error) => {
+                throw new ErisComponentsError(
+                    'ERROR_ON_REQUEST',
+                    `An error occurred while making the request ErisClient.request function: ${error.toString()}`
+                );
+            });
     };
 
     return ErisClient;
@@ -500,5 +501,5 @@ module.exports = {
     Menu: Menu,
     MenuOption: MenuOption,
     Util: Util,
-    Constants: Constants
-}
+    Constants: Constants,
+};

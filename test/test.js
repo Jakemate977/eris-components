@@ -3,7 +3,7 @@ const ErisComponents = require('../src/index.js');
 
 const Eris = require('eris');
 
-const token = 'ODY0NTg5NjcyNjM3MTM2ODk2.YO3p4Q.pd2OcLvl2zeB13_pztQxDnBm31o';
+const token = 'Bot x';
 
 const ErisClient = new Eris(token);
 
@@ -65,21 +65,22 @@ let row = new ErisComponents.ActionRow()
     .addComponent(button)
     .addComponent(button2);
 
-let mrow = new ErisComponents.ActionRow()
-    .addComponent(menu)
+let mrow = new ErisComponents.ActionRow().addComponent(menu);
 
-let mrow2 = new ErisComponents.ActionRow()
-    .addComponent(menu2)
+let mrow2 = new ErisComponents.ActionRow().addComponent(menu2);
 
 let row2 = new ErisComponents.ActionRow().addComponents([button3, button4]);
 
 //console.log(JSON.stringify(row, null, 2));
 
-client.connect()
+client.connect();
 
 client.on('messageCreate', async (message) => {
     if (message.content == '.sasota') {
-        await client.sendComponents(message.channel.id, [mrow, mrow2, row], { content: 'components with embed', embeds: [{ title: 'hi' }, { title: 'just another embed' }] });
+        await client.sendComponents(message.channel.id, [mrow, mrow2, row], {
+            content: 'components with embed',
+            embeds: [{ title: 'hi' }, { title: 'just another embed' }],
+        });
 
         await client.sendComponents(
             message.channel.id,
@@ -87,25 +88,23 @@ client.on('messageCreate', async (message) => {
             'sas'
         );
 
-        let collector = client
-            .createComponentsCollector(
-                (body) => body.data.custom_id == 'holi',
-                message.channel.id,
-                { time: 10000 }
-            )
-        
-        console.log(collector.ended)
+        let collector = client.createComponentsCollector(
+            (body) => body.data.custom_id == 'holi',
+            message.channel.id,
+            { time: 10000 }
+        );
+
+        console.log(collector.ended);
 
         collector.on('collect', async (resBody) => {
-            console.log('Colector collectando')
+            console.log('Colector collectando');
             await client.replyInteraction(resBody, button3, 'hol colectado');
-            console.log(collector.collected)
-        })
+            console.log(collector.collected);
+        });
 
-        collector.on('end', (c) => {
-            console.log('Colector acabado')
-        })
-        
+        collector.on('end', () => {
+            console.log('Colector acabado');
+        });
     }
 });
 
@@ -116,6 +115,10 @@ client.on('clickButton', async () => {
 client.on('submitMenu', async () => {
     console.log('Menu enviado');
 });
+
+client.on('slashCommandInteract', (resBody) => {
+    client.replyInteraction(resBody, button, 'hi')
+})
 
 // Obtener respuesta de los botones al hacer click y editar el mensaje por ejemplo
 

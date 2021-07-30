@@ -6,7 +6,7 @@ class ErisComponentsError extends Error {
      * Throw an error.
      * @param  {string} code
      * @param  {string} message
-    */
+     */
     constructor(code, message) {
         super(`(${code.toUpperCase()}) ${message}`);
         this.name = 'ErisComponentsError';
@@ -193,7 +193,7 @@ function resolveMenuOptions(data) {
             value: d.value,
             emoji: d.emoji,
             description: d.description,
-            default: d.default
+            default: d.default,
         });
     });
 
@@ -241,5 +241,5 @@ module.exports = {
     resolveMenuOptions: resolveMenuOptions,
     resolveMaxValues: resolveMaxValues,
     resolveMinValues: resolveMinValues,
-    testEmoji: testEmoji
-}
+    testEmoji: testEmoji,
+};

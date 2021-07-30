@@ -2,7 +2,6 @@
 const { ErisComponentsError, resolveString } = require('../util');
 
 class ErisMenuOption {
-
     constructor(obj = {}) {
         this.setup(obj);
     }
@@ -48,16 +47,21 @@ class ErisMenuOption {
                 'The setEmoji must use an emoji.'
             );
 
-        if (!isNaN(emoji)) this.emoji = Object.assign({}, (this.emoji || {}), { id: emoji })
+        if (!isNaN(emoji))
+            this.emoji = Object.assign({}, this.emoji || {}, { id: emoji });
 
-        if (!isNaN(emoji.id)) this.emoji = Object.assign({}, (this.emoji || {}), { id: emoji.id })
+        if (!isNaN(emoji.id))
+            this.emoji = Object.assign({}, this.emoji || {}, { id: emoji.id });
 
-        if (emoji.name) this.emoji = Object.assign({}, (this.emoji || {}), { name: emoji.name })
+        if (emoji.name)
+            this.emoji = Object.assign({}, this.emoji || {}, {
+                name: emoji.name,
+            });
 
-        if (!this.emoji || !this.emoji.id && !this.emoji.name) {
-            this.emoji = {}
+        if (!this.emoji || (!this.emoji.id && !this.emoji.name)) {
+            this.emoji = {};
             this.emoji.name = emoji;
-        } 
+        }
 
         if (typeof animated === 'boolean') this.emoji.animated = animated;
 
@@ -75,4 +79,4 @@ class ErisMenuOption {
     }
 }
 
-module.exports = ErisMenuOption
+module.exports = ErisMenuOption;
