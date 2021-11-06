@@ -1,5 +1,7 @@
 # Eris Components
 
+**NOTE:** We are not maintaining this package anymore, if someone is willing to maintain it feel free to open an issue
+
 ## Summary
 
 - Eris Components allows you to use Discord buttons and other components interacting with the Discord API.
