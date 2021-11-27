@@ -20,7 +20,18 @@ export default class Button {
     setEmoji(emoji: any, animated: boolean): this;
     toJSON(): {
         type: ComponentTypes;
-        style: "blurple" | "grey" | "gray" | "green" | "red" | "url" | "primary" | "secondary" | "success" | "danger" | "link";
+        style:
+            | 'blurple'
+            | 'grey'
+            | 'gray'
+            | 'green'
+            | 'red'
+            | 'url'
+            | 'primary'
+            | 'secondary'
+            | 'success'
+            | 'danger'
+            | 'link';
         label: string;
         emoji: string;
         disabled: boolean;

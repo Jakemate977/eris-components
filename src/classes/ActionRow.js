@@ -50,4 +50,4 @@ class ErisActionRow {
     }
 }
 
-module.exports = ErisActionRow
+module.exports = ErisActionRow;

@@ -6,10 +6,7 @@ const {
 } = require('../util');
 const { ComponentTypes } = require('../constants');
 
-
 class ErisSelectMenu {
-
-
     constructor(obj = {}) {
         this.setup(obj);
     }
@@ -113,4 +110,4 @@ class ErisSelectMenu {
     }
 }
 
-module.exports = ErisSelectMenu
+module.exports = ErisSelectMenu;
