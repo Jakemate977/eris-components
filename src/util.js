@@ -13,6 +13,12 @@ class ErisComponentsError extends Error {
     }
 }
 
+function debug(options, message) {
+    if (options && options.debug) {
+        return console.log(`ErisComponents: (DEBUG) ${message}`);
+    }
+}
+
 /**
  * Returns the number of a stile.
  * @param  {keyof typeof ButtonStyles} style
@@ -233,6 +239,7 @@ function testEmoji(string) {
 
 module.exports = {
     ErisComponentsError: ErisComponentsError,
+    debug: debug,
     resolveStyle: resolveStyle,
     resolveString: resolveString,
     resolveButton: resolveButton,

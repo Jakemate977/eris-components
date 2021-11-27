@@ -18,6 +18,16 @@ export declare class ErisComponentsError extends Error {
  * @param  {keyof typeof ButtonStyles} style
  * @returns ButtonStyles
  */
+export declare function debug(
+    options: { debug?: boolean; invalidClientInstanceError?: boolean },
+    message: string
+): any;
+/**
+ * Returns the data as a string, if the data is an array it joins all its components into 1 string.
+ * @param  {unknown} data
+ * @returns string
+ */
+
 export declare function resolveStyle(
     style: keyof typeof ButtonStyles
 ): ButtonStyles;

@@ -8,10 +8,21 @@ import MenuOption from '../lib/classes/MenuOption';
 /**
  * The Eris client.
  * @param  {Eris.Client} ErisClient
- * @param  {string} botToken
+ * @param  {object} options
  * @returns Eris
  */
-declare function Client(ErisClient: Eris.Client): Eris.Client;
+declare function Client(
+    ErisClient: Eris.Client,
+    options?: {
+        debug?: boolean;
+        invalidClientInstanceError?: boolean;
+        ignoreRequestErrors?: boolean;
+    } = {
+        debug: false,
+        invalidClientInstanceError: true,
+        ignoreRequestErrors: false,
+    }
+): Eris.Client;
 declare const _default: {
     Client: typeof Client;
     ActionRow: typeof ActionRow;

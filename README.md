@@ -26,7 +26,13 @@ const Eris = require('eris');
 
 const bot = new Eris('Bot XXXX.XXXXXX.XXXX'); // ErisClient instance.
 
-const client = ErisComponents.Client(bot); // The ErisClient with ErisComponents methods.
+const options = {
+    debug: false, // Debug disabled.
+    invalidClientInstanceError: true, // Only set this option to false if client instance error is bugged.
+    ignoreRequestErrors: false // If Eris Components should ignore errors on request (4xx or 5xx) codes.
+};
+
+const client = ErisComponents.Client(bot, options); // The ErisClient with ErisComponents methods.
 
 // Send button example:
 
@@ -43,13 +49,19 @@ client.sendComponents('Channel ID', Button, 'Hi! this is your first button.'); /
 
 ### Eris Components Classes
 
-- Client | `.Client(ErisClient)` -> ErisComponentsClient
+- Client | `.Client(ErisClient, options)` -> ErisComponentsClient
 
 Adds Eris Components Methods to the ErisClient provided. Returns the client instance with the new methods.
 
 ```js
 
-new ErisComponents.Client(ErisClient);
+const options = {
+    debug: false,  // Disable / Enable debug.
+    invalidClientInstanceError: true, // Only set this option to false if client instance error is bugged.
+    ignoreRequestErrors: false // If Eris Components should ignore errors on request (4xx or 5xx) codes.
+};
+
+new ErisComponents.Client(ErisClient, options);
 
 ```
 
@@ -79,6 +91,7 @@ new ErisComponents.Button()
     .setID('Component ID') // Sets the custom_id of the button. Util to recognize different components.
     .setEmoji('846514899503939605 (emoji id) or 🤗 (raw emoji)', false) // Sets the emoji of the button. The first argument is the emoji and the second argument is if the emoji is animated or not.
     .setEmoji({ id: '846514899503939605', name: 'Hi'}, false); // This is valid too. But if you want to put raw emoji the id must be null and name the emoji.
+    .setURL('URL here') // Sets the url of the button. Important: To use this method, you must put in style "link" or "url" and not put .setID() in the Button class.
 
 ```
 
@@ -93,7 +106,7 @@ Creates an components collector in a channel.
  * @param {function} filter (Required) The filter on the colector. Should be an arrow function or an function if you want thisArg. 
  * @param {string} channel (Required) The ID of the channel in which the collector will work. 
  * @param {object} options (Optional) Object that contains the options for the collector. 
- * @param {number} options.time (Optional) The time in milliseconds in which the collector will stop. 
+ * @param {number} options.time (Optional) The time in milliseconds in which the collector will stop. Put 0 to not put a limit. It is highly recommended to set a time limit.
  * @param {thisArg} thisArg (Optional) The this argument passed to the filter.
  * @returns collector
 */
@@ -110,7 +123,7 @@ collector.on('collect', async (resBody) => { // On collect a component interacti
     await client.replyInteraction(resBody, [], 'Hi'); // Example reply of a interaction.
 });
 
-collector.on('end', (collected) => { // When the collector stops. It can be by time or by call of the stop() method. Collected is an array of all collected resBodys.
+collector.on('end', (collected) => { // When the collector stops. It can be by time or by call of the stop() method. Collected is an array of all collected resBody's.
     console.log('Collector end. Collected:', collected);
 });
 
@@ -198,7 +211,7 @@ client.on('clickButton', (resBody) => {
 
 - SubmitMenu | `.on('submitMenu', (resBody) => resBody)` -> resBody
 
-Event emitted when any menu sended by the client is submited.
+Event emitted when any menu sended by the client is submitted.
 
 ```js
 
@@ -287,6 +300,33 @@ client.sendComponents('Channel ID', button, { content: 'Components with embed', 
 
 ```
 
+- EditComponents | `.editComponents(APIMessage | Eris.Message, components, content, file)` -> DiscordAPIRequest
+
+Edit a message and give the possibility to add or edit components.
+
+```js
+
+    let msg = await client.sendComponents('Channel ID', Button, 'Message here.');
+
+    await client.editComponents(msg, [Button1, Button2], 'This message is edited.');
+
+    // Or
+
+    let msg2 = await client.createMessage('Channel ID', 'Message');
+
+    await client.editComponents(msg2, [Button1, Button2], 'This message is edited.');
+
+
+
+    // And if you want to delete all components just do:
+
+    let msg3 = await client.sendComponents('Channel ID', Button, 'This message has components.');
+
+    await client.editComponents(msg3, [], 'This message is edited and has no components.');
+
+
+```
+
 - EditInteraction | `.editInteraction(resBody, components, content, file)` -> DiscordAPIRequest
 
 Edits the original message when an interaction is emitted. All options of client.sendComponents are available.
@@ -339,7 +379,7 @@ Await Components on a channel.
 let filter = ((body) => body.data.custom_id == 'ID here.') // Example filter.
 let channel = message.channel.id // Example channel.
 let options = { 
-    time: 10000 // Max time to wait for a interaction response.
+    time: 10000 // Max time to wait for a interaction response. Put 0 to not put a limit. It is highly recommended to set a time limit.
 }
 
 let resBody = await client.awaitComponents(filter, channel, options).catch(err => console.log('Out of time.'))
@@ -357,7 +397,7 @@ Call ComponentsCollector Class. See the ErisClient.ComponentsCollector class for
 let filter = ((body) => body.data.custom_id == 'ID here.') // Example filter.
 let channel = message.channel.id // Example channel.
 let options = { 
-    time: 10000 // Max time to wait for a interaction response.
+    time: 10000 // Max time to wait for a interaction response. Put 0 to not put a limit. It is highly recommended to set a time limit.
 }
 
 let collector = client.createComponentsCollector(filter, channel, options)
@@ -372,9 +412,9 @@ collector.on('end', (collected) => {
 
 ```
 
-## Instalation
+## Installation
 
-*If you have instalation issues, join our [support server](https://discord.gg/8RNAdpK).*
+*If you have installation issues, join our [support server](https://discord.gg/8RNAdpK).*
 
 Linux & Windows
 

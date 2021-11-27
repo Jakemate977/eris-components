@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { Client } = require('eris');
 const { ErisComponentsError } = require('../util');
 const EventEmitter = require('events');
 
@@ -9,31 +8,42 @@ class ErisComponentsCollector extends EventEmitter {
         super();
         this.collections = [];
         this.endedBool = false;
-        this.EClient = ErisClient;
 
         if (!ErisClient)
             throw new ErisComponentsError(
                 'NO_CLIENT_PROVIDED',
-                'No Eris Client provided on ErisComponents.ComponentsCollector function.'
-            );
-
-        if (!(ErisClient instanceof Client))
-            throw new ErisComponentsError(
-                'INVALID_CLIENT_INSTANCE',
-                'Invalid instace of Eris Client provided on ErisComponents.ComponentsCollector function.'
+                'No Eris Client provided on ErisComponents.ComponentsCollector constructor.'
             );
 
         if (!filter)
             throw new ErisComponentsError(
                 'REQUIRED_FILTER',
-                'You need to provide a filter to ErisComponents.ComponentsCollector function.'
+                'You need to provide a filter to ErisComponents.ComponentsCollector constructor.'
             );
 
         if (!channel)
             throw new ErisComponentsError(
                 'REQUIRED_CHANNEL',
-                'You need to provide a channel to ErisComponents.ComponentsCollector function.'
+                'You need to provide a channel to ErisComponents.ComponentsCollector constructor.'
             );
+
+        if (!options)
+            throw new ErisComponentsError(
+                'REQUIRED_OPTIONS',
+                'You need to provide an options to ErisComponents.ComponentsCollector constructor.'
+            );
+
+        if (!options.time)
+            throw new ErisComponentsError(
+                'REQUIRED_TIME_OPTIONS',
+                'You need to provide an time to options on ErisComponents.ComponentsCollector constructor.'
+            );
+
+        const maxListeners = ErisClient.getMaxListeners();
+
+        if (maxListeners !== 0) {
+            ErisClient.setMaxListeners(maxListeners + 1);
+        }
 
         const listenerFN = async (data) => {
             if (!data.data.component_type) return;
@@ -46,9 +56,9 @@ class ErisComponentsCollector extends EventEmitter {
             }
         };
 
-        this.EClient.on('componentInteract', listenerFN);
+        ErisClient.on('componentInteract', listenerFN);
 
-        if (options.time) {
+        if (options && options.time && options.time > 0) {
             new Promise((resolve) => setTimeout(resolve, options.time)).then(
                 () => {
                     this.emit('preEnd', true);
@@ -58,7 +68,15 @@ class ErisComponentsCollector extends EventEmitter {
 
         this.on('preEnd', () => {
             this.endedBool = true;
-            this.EClient.removeListener('componentInteract', listenerFN);
+
+            ErisClient.removeListener('componentInteract', listenerFN);
+
+            const newMaxListeners = ErisClient.getMaxListeners();
+
+            if (newMaxListeners !== 0) {
+                ErisClient.setMaxListeners(newMaxListeners - 1);
+            }
+
             this.emit('end', this.collections);
         });
     }
