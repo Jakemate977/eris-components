@@ -60,10 +60,14 @@ Adds Eris Components Methods to the ErisClient provided. Returns the client inst
 const options = {
     debug: false,  // Disable / Enable debug.
     invalidClientInstanceError: true, // Only set this option to false if client instance error is bugged.
+    ignoreRequestErrors: false // If Eris Components should ignore errors on request (4xx or 5xx) codes.
 };
 
 new ErisComponents.Client(ErisClient, options);
 
+```
+
+- ActionRow | `.ActionRow()` -> ErisActionRow
 
 Creates an row for send multiple components in a message.
 

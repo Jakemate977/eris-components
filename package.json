@@ -28,6 +28,10 @@
   ],
   "author": "tnfAngel, Jakemate977",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jakemate977/eris-components.git"
+  },
   "dependencies": {
     "eris": "^0.16.1"
   },
