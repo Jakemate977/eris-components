@@ -6,10 +6,16 @@ class ErisComponentsError extends Error {
      * Throw an error.
      * @param  {string} code
      * @param  {string} message
-    */
+     */
     constructor(code, message) {
         super(`(${code.toUpperCase()}) ${message}`);
         this.name = 'ErisComponentsError';
+    }
+}
+
+function debug(options, message) {
+    if (options && options.debug) {
+        return console.log(`ErisComponents: (DEBUG) ${message}`);
     }
 }
 
@@ -193,7 +199,7 @@ function resolveMenuOptions(data) {
             value: d.value,
             emoji: d.emoji,
             description: d.description,
-            default: d.default
+            default: d.default,
         });
     });
 
@@ -233,6 +239,7 @@ function testEmoji(string) {
 
 module.exports = {
     ErisComponentsError: ErisComponentsError,
+    debug: debug,
     resolveStyle: resolveStyle,
     resolveString: resolveString,
     resolveButton: resolveButton,
@@ -241,5 +248,5 @@ module.exports = {
     resolveMenuOptions: resolveMenuOptions,
     resolveMaxValues: resolveMaxValues,
     resolveMinValues: resolveMinValues,
-    testEmoji: testEmoji
-}
+    testEmoji: testEmoji,
+};

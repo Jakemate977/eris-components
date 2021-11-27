@@ -4,7 +4,7 @@ export default class ErisActionRow {
     type?: number;
     constructor(obj?: any);
     setup(obj: objAction): this;
-    addComponents(components: objAction["components"]): this;
+    addComponents(components: objAction['components']): this;
     addComponent(component: any): this;
     setComponents(componentsArr: any[]): this;
     toJSON(): objAction;

@@ -111,4 +111,4 @@ class Button {
     }
 }
 
-module.exports = Button
+module.exports = Button;
