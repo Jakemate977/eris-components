@@ -172,13 +172,13 @@ new ErisComponents.MenuOption()
 
 ### Eris Components Client Events
 
-- InteractionCreate | `.on('interactionCreate', (resBody) => resBody)` -> resBody
+- RawInteractionCreate | `.on('rawInteractionCreate', (resBody) => resBody)` -> resBody
 
 Event emitted when any interaction is created.
 
 ```js
 
-client.on('interactionCreate', (resBody) => {
+client.on('rawInteractionCreate', (resBody) => {
     console.log(resBody);
     client.replyInteraction(resBody, button, 'Hi');
 });

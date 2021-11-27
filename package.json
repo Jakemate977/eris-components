@@ -1,6 +1,6 @@
 {
   "name": "eris-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Eris Components allows you to use Discord buttons and other components interacting with the Discord API.",
   "main": "src/index.js",
   "directories": {
