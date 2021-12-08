@@ -6,7 +6,7 @@
 
 - Eris Components allows you to use Discord buttons and other components interacting with the Discord API.
 
-- Module developed by `tnfAngel`#8642 & `Jakemate977`#5825.
+- Module developed by `tnfAngel`#6557 & `Jakemate977`#5825.
 
 ## Usage
 
@@ -43,7 +43,7 @@ const Button = new ErisComponents.Button()
     .setID('Component ID')
     .setStyle('blurple');
 
-client.sendComponents('Channel ID', Button, 'Hi! this is your first button.'); // Send a message with a button to a Discord channel.
+await client.sendComponents('Channel ID', Button, 'Hi! this is your first button.'); // Send a message with a button to a Discord channel.
 
 ```
 
@@ -93,7 +93,7 @@ new ErisComponents.Button()
     .setID('Component ID') // Sets the custom_id of the button. Util to recognize different components.
     .setEmoji('846514899503939605 (emoji id) or 🤗 (raw emoji)', false) // Sets the emoji of the button. The first argument is the emoji and the second argument is if the emoji is animated or not.
     .setEmoji({ id: '846514899503939605', name: 'Hi'}, false); // This is valid too. But if you want to put raw emoji the id must be null and name the emoji.
-    .setURL('URL here') // Sets the url of the button. Important: To use this method, you must put in style "link" or "url" and not put .setID() in the Button class.
+    .setURL('URL here'); // Sets the url of the button. Important: To use this method, you must put in style "link" or "url" and not put .setID() in the Button class.
 
 ```
 
@@ -118,7 +118,7 @@ const channel = message.channel.id; // Channel ID.
 const options = { time: 10000 }; // Time in milliseconds in which the collector will stop. 
 const thisArg = null; // Null because the filter is an arrow function.
 
-let collector = new ErisComponents.ComponentsCollector(ErisClient, filter, channel, options, thisArg);
+const collector = new ErisComponents.ComponentsCollector(ErisClient, filter, channel, options, thisArg);
 
 collector.on('collect', async (resBody) => { // On collect a component interaction that meets the filter. ResBody is the response body of the component interaction.
     console.log('Collected.');
@@ -178,9 +178,9 @@ Event emitted when any interaction is created.
 
 ```js
 
-client.on('rawInteractionCreate', (resBody) => {
+client.on('rawInteractionCreate', async (resBody) => {
     console.log(resBody);
-    client.replyInteraction(resBody, button, 'Hi');
+    await client.replyInteraction(resBody, button, 'Hi');
 });
 
 ```
@@ -191,9 +191,9 @@ Event emitted when any slash command is triggered.
 
 ```js
 
-client.on('slashCommandInteract', (resBody) => {
+client.on('slashCommandInteract', async (resBody) => {
     console.log(resBody);
-    client.replyInteraction(resBody, button, 'Hi');
+    await client.replyInteraction(resBody, button, 'Hi');
 });
 
 ```
@@ -204,9 +204,9 @@ Event emitted when any button sended by the client is clicked.
 
 ```js
 
-client.on('clickButton', (resBody) => {
+client.on('clickButton', async (resBody) => {
     console.log(resBody);
-    client.replyInteraction(resBody, button, 'Hi');
+    await client.replyInteraction(resBody, button, 'Hi');
 });
 
 ```
@@ -217,9 +217,9 @@ Event emitted when any menu sended by the client is submitted.
 
 ```js
 
-client.on('submitMenu', (resBody) => {
+client.on('submitMenu', async (resBody) => {
     console.log(resBody);
-    client.replyInteraction(resBody, button, 'Hi');
+    await client.replyInteraction(resBody, button, 'Hi');
 });
 
 ```
@@ -230,9 +230,9 @@ Event emitted when any interaction with component is performed.
 
 ```js
 
-client.on('componentInteract', (resBody) => {
+client.on('componentInteract', async (resBody) => {
     console.log(resBody);
-    client.replyInteraction(resBody, button, 'Hi');
+    await client.replyInteraction(resBody, button, 'Hi');
 });
 
 ```
@@ -247,16 +247,16 @@ Sends components to a specific channel.
 
 // Send single component.
 
-client.sendComponents('Channel ID', button, 'Hi');
+await client.sendComponents('Channel ID', button, 'Hi');
 
 
 
 // Send multiple Buttons.
 
-let actionRow = new ErisComponents.ActionRow()
+const actionRow = new ErisComponents.ActionRow()
     .addComponents([Button1, Button2, Button3]);
 
-client.sendComponents('Channel ID', actionRow, 'Hi');
+await client.sendComponents('Channel ID', actionRow, 'Hi');
 
 // Or
 
@@ -266,37 +266,37 @@ client.sendComponents('Channel ID', [button1, button2], 'Hi');
 
 // Send multiple rows.
 
-let actionRow = new ErisComponents.ActionRow()
+const actionRow = new ErisComponents.ActionRow()
     .addComponents([Button1, Button2, Button3]);
 
-let actionRow2 = new ErisComponents.ActionRow()
+const actionRow2 = new ErisComponents.ActionRow()
     .addComponents([Button4, Button5, Button6]);
 
-client.sendComponents('Channel ID', [actionRow, actionRow2], 'Hi');
+await client.sendComponents('Channel ID', [actionRow, actionRow2], 'Hi');
 
 
 
 // Send multiple SelectMenus.
 
-let menuRow1 = new ErisComponents.ActionRow()
+const menuRow1 = new ErisComponents.ActionRow()
     .addComponent(menu1);
 
-let menuRow2 = new ErisComponents.ActionRow()
+const menuRow2 = new ErisComponents.ActionRow()
     .addComponent(menu2);
 
-client.sendComponents('Channel ID', [menuRow1, menuRow2], 'Hi');
+await client.sendComponents('Channel ID', [menuRow1, menuRow2], 'Hi');
 
 
 
 // Send components with embed (Discord deprecated)
 
-client.sendComponents('Channel ID', button, { content: 'Components with embed', embed: { title: 'Hi' } });
+await client.sendComponents('Channel ID', button, { content: 'Components with embed', embed: { title: 'Hi' } });
 
 
 
 // Send components with multiple embeds.
 
-client.sendComponents('Channel ID', button, { content: 'Components with embed', embeds: [{ title: 'Hi' }, { title: 'Just another embed' }] });
+await client.sendComponents('Channel ID', button, { content: 'Components with embed', embeds: [{ title: 'Hi' }, { title: 'Just another embed' }] });
 
 // You can use all the message options available from the Discord API. See https://discord.com/developers/docs/resources/channel#create-message-jsonform-params
 
@@ -308,13 +308,13 @@ Edit a message and give the possibility to add or edit components.
 
 ```js
 
-    let msg = await client.sendComponents('Channel ID', Button, 'Message here.');
+    const msg = await client.sendComponents('Channel ID', Button, 'Message here.');
 
     await client.editComponents(msg, [Button1, Button2], 'This message is edited.');
 
     // Or
 
-    let msg2 = await client.createMessage('Channel ID', 'Message');
+    const msg2 = await client.createMessage('Channel ID', 'Message');
 
     await client.editComponents(msg2, [Button1, Button2], 'This message is edited.');
 
@@ -322,7 +322,7 @@ Edit a message and give the possibility to add or edit components.
 
     // And if you want to delete all components just do:
 
-    let msg3 = await client.sendComponents('Channel ID', Button, 'This message has components.');
+    const msg3 = await client.sendComponents('Channel ID', Button, 'This message has components.');
 
     await client.editComponents(msg3, [], 'This message is edited and has no components.');
 
@@ -335,9 +335,9 @@ Edits the original message when an interaction is emitted. All options of client
 
 ```js
 
-client.on('clickButton', (resBody) => {
+client.on('clickButton', async (resBody) => {
 
-    client.editInteraction(resBody, button, 'Hi, this message is edited.'); // Edit the message when a button is clicked.
+    await client.editInteraction(resBody, button, 'Hi, this message is edited.'); // Edit the message when a button is clicked.
 
 })
 
@@ -349,23 +349,23 @@ Sends a new message when an interaction is emitted. All options of client.sendCo
 
 ```js
 
-client.on('clickButton', (resBody) => {
+client.on('clickButton', async (resBody) => {
 
     // Send normal message.
 
-    client.replyInteraction(resBody, [], 'Hi, this message has no buttons.') // Send a message when a button is clicked with no components.
+    await client.replyInteraction(resBody, [], 'Hi, this message has no buttons.'); // Send a message when a button is clicked with no components.
 
     // Send normal message with button.
 
-    client.replyInteraction(resBody, button, 'Hi, this message has buttons.') // Send a message when a button is clicked with components.
+    await client.replyInteraction(resBody, button, 'Hi, this message has buttons.'); // Send a message when a button is clicked with components.
 
     // Send ephemeral message with buttons.
 
-    client.replyInteraction(resBody, [button1, button2], 'Hi, this message has buttons and only you can see this.', { ephemeral: true }) 
+    await client.replyInteraction(resBody, [button1, button2], 'Hi, this message has buttons and only you can see this.', { ephemeral: true }); 
 
     // Send a message with custom type and embeds.
 
-    client.replyInteraction(resBody, [button1, button2], { embeds: [embed1, embed2] }, { ephemeral: true }, 5) // Type 5. See https://discord.com/developers/docs/interactions/slash-commands#interaction-response-object-interaction-callback-type
+    await client.replyInteraction(resBody, [button1, button2], { embeds: [embed1, embed2] }, { ephemeral: true }, 5); // Type 5. See https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-response-object-interaction-callback-type
 
 
 })
@@ -378,15 +378,15 @@ Await Components on a channel.
 
 ```js
 
-let filter = ((body) => body.data.custom_id == 'ID here.') // Example filter.
-let channel = message.channel.id // Example channel.
-let options = { 
+const filter = ((body) => body.data.custom_id == 'ID here.'); // Example filter.
+const channel = message.channel.id; // Example channel.
+const options = { 
     time: 10000 // Max time to wait for a interaction response. Put 0 to not put a limit. It is highly recommended to set a time limit.
-}
+};
 
-let resBody = await client.awaitComponents(filter, channel, options).catch(err => console.log('Out of time.'))
+const resBody = await client.awaitComponents(filter, channel, options).catch(err => console.log('Out of time.'));
 
-console.log(resBody)
+console.log(resBody);
 
 ```
 
@@ -396,21 +396,21 @@ Call ComponentsCollector Class. See the ErisClient.ComponentsCollector class for
 
 ```js
 
-let filter = ((body) => body.data.custom_id == 'ID here.') // Example filter.
-let channel = message.channel.id // Example channel.
-let options = { 
+const filter = ((body) => body.data.custom_id == 'ID here.'); // Example filter.
+const channel = message.channel.id; // Example channel.
+const options = { 
     time: 10000 // Max time to wait for a interaction response. Put 0 to not put a limit. It is highly recommended to set a time limit.
-}
+};
 
-let collector = client.createComponentsCollector(filter, channel, options)
+const collector = client.createComponentsCollector(filter, channel, options);
 
-collector.on('collect', async (resBody) => {
+collector.on('collect', (resBody) => {
     console.log('Collected:', resBody);
-})
+});
 
 collector.on('end', (collected) => {
     console.log('Collector end. Collected:', collected);
-})
+});
 
 ```
 
