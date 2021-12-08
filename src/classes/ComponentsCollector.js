@@ -39,10 +39,12 @@ class ErisComponentsCollector extends EventEmitter {
                 'You need to provide an time to options on ErisComponents.ComponentsCollector constructor.'
             );
 
-        const maxListeners = ErisClient.getMaxListeners();
+        if (ErisClient['getMaxListeners']) {
+            const maxListeners = ErisClient.getMaxListeners();
 
-        if (maxListeners !== 0) {
-            ErisClient.setMaxListeners(maxListeners + 1);
+            if (maxListeners !== 0) {
+                ErisClient.setMaxListeners(maxListeners + 1);
+            }
         }
 
         const listenerFN = async (data) => {
@@ -71,10 +73,13 @@ class ErisComponentsCollector extends EventEmitter {
 
             ErisClient.removeListener('componentInteract', listenerFN);
 
-            const newMaxListeners = ErisClient.getMaxListeners();
+            if (ErisClient['getMaxListeners']) {
 
-            if (newMaxListeners !== 0) {
-                ErisClient.setMaxListeners(newMaxListeners - 1);
+                const newMaxListeners = ErisClient.getMaxListeners();
+
+                if (newMaxListeners !== 0) {
+                    ErisClient.setMaxListeners(newMaxListeners - 1);
+                }
             }
 
             this.emit('end', this.collections);

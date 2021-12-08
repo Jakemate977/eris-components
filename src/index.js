@@ -553,10 +553,12 @@ function ErisComponentsClient(
                 'You need to provide a channel to ErisClient.awaitComponents function.'
             );
 
-        const maxListeners = ErisClient.getMaxListeners();
+        if (ErisClient['getMaxListeners']) {
+            const maxListeners = ErisClient.getMaxListeners();
 
-        if (maxListeners !== 0) {
-            ErisClient.setMaxListeners(maxListeners + 1);
+            if (maxListeners !== 0) {
+                ErisClient.setMaxListeners(maxListeners + 1);
+            }
         }
 
         return new Promise((resolve, reject) => {
@@ -580,10 +582,14 @@ function ErisComponentsClient(
 
                 ErisClient.removeListener('componentInteract', listenerFN);
 
-                const newMaxListeners = ErisClient.getMaxListeners();
+                if (ErisClient['getMaxListeners']) {
 
-                if (newMaxListeners !== 0) {
-                    ErisClient.setMaxListeners(newMaxListeners - 1);
+                    const newMaxListeners = ErisClient.getMaxListeners();
+
+                    if (newMaxListeners !== 0) {
+                        ErisClient.setMaxListeners(newMaxListeners - 1);
+                    }
+                    
                 }
 
                 return true;
